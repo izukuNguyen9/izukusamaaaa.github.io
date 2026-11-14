@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 # Pages 部署需要的权限
@@ -22,6 +22,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Configure GitHub Pages URL
+        run: |
+          echo "PUBLIC_SITE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io" >> "$GITHUB_ENV"
+          echo "PUBLIC_SITE_LANG=en" >> "$GITHUB_ENV"
+          if [ "$GITHUB_REPOSITORY" = "${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            echo "PUBLIC_BASE_URL=/" >> "$GITHUB_ENV"
+          else
+            echo "PUBLIC_BASE_URL=/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_ENV"
+          fi
       
       - name: Setup Node.js
         uses: actions/setup-node@v7

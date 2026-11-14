@@ -11,12 +11,16 @@ import {
 	getProjectStatusMeta,
 	PROJECT_STATUS_KEYS,
 } from "@/utils/projects-utils";
-import { getFileDirFromPath, removeFileExtension } from "@/utils/url-utils";
+import {
+	getFileDirFromPath,
+	removeFileExtension,
+	url,
+} from "@/utils/url-utils";
 import "@/styles/pages/card-grid.css";
 
 // 检查页面是否启用
 if (!siteConfig.pages.projects) {
-	return Astro.redirect("/404/");
+	return Astro.redirect(url("/404/"));
 }
 
 const title = i18n(I18nKey.projects);

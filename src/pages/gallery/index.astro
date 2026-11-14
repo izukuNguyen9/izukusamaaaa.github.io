@@ -7,11 +7,12 @@ import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import "@/styles/pages/common.css";
 import { getAlbumCover, scanAlbumPhotos } from "@/utils/gallery-utils";
+import { url } from "@/utils/url-utils";
 import "@/styles/pages/card-grid.css";
 
 // 检查页面是否启用
 if (!siteConfig.pages.gallery) {
-	return Astro.redirect("/404/");
+	return Astro.redirect(url("/404/"));
 }
 
 const title = i18n(I18nKey.gallery);

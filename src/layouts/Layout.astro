@@ -114,6 +114,7 @@ const favicons: Favicon[] =
 // apple-touch-icon：优先取 favicon 中的 png，否则取第一个
 const appleTouchIcon =
 	favicons.find((f) => f.src.toLowerCase().endsWith(".png")) ?? favicons[0];
+const siteUrl = Astro.site ?? new URL(siteConfig.site_url);
 
 // const siteLang = siteConfig.lang.replace('_', '-')
 if (!lang) {
@@ -138,7 +139,7 @@ let ogImageWidth: number | undefined;
 let ogImageHeight: number | undefined;
 const isGeneratedOg = siteConfig.post.generateOgImages && postSlug;
 if (isGeneratedOg) {
-	ogImageUrl = new URL(`/og/${postSlug}.png`, Astro.site).toString();
+	ogImageUrl = new URL(url(`/og/${postSlug}.png`), siteUrl).toString();
 	ogImageWidth = 1200;
 	ogImageHeight = 630;
 } else if (postCoverImage) {
@@ -498,14 +499,14 @@ const ogImageAlt = propsOgImageAlt ?? pageTitle;
       rel="alternate"
       type="application/rss+xml"
       title={profileConfig.name}
-      href={`${Astro.site}rss.xml`}
+      href={new URL(url("rss.xml"), siteUrl).href}
     />
 
     <link
       rel="alternate"
       type="application/atom+xml"
       title={profileConfig.name}
-      href={`${Astro.site}atom.xml`}
+      href={new URL(url("atom.xml"), siteUrl).href}
     />
 
     <!-- Font Setup (Astro Font API) -->

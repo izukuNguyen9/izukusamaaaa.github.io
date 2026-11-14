@@ -23,7 +23,7 @@ import {
 
 // 检查页面是否启用
 if (!siteConfig.pages.projects) {
-	return Astro.redirect("/404/");
+	return Astro.redirect(url("/404/"));
 }
 
 export async function getStaticPaths() {
