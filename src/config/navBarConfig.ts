@@ -13,22 +13,12 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	// 基础导航栏链接
 	const links: NavBarLink[] = [];
 
-	// 主页
 	links.push(LinkPresets.Home);
-
-	// 文章及其归档入口
 	links.push({
-		name: "文章",
-		url: "#",
+		name: "Blog",
+		url: "/archive/",
 		icon: "material-symbols:article",
-		children: [
-			LinkPresets.Archive,
-			LinkPresets.Categories,
-			LinkPresets.Tags,
-			LinkPresets.Series,
-		],
 	});
-
 	links.push(LinkPresets.Gallery);
 	links.push(LinkPresets.About);
 

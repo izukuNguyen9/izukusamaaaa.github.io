@@ -29,15 +29,21 @@ const className = Astro.props.class;
         class="transition opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100 text-white text-5xl"
       />
     </div>
-    <ImageWrapper
-      src={profileConfig.avatar || ""}
-      alt="Profile Image of the Author"
-      class="profile-avatar-image mx-auto lg:w-full h-full lg:mt-0"
-      loading="eager"
-      fetchpriority="high"
-      widths={[350]}
-      sizes="350px"
-    />
+    {profileConfig.avatar ? (
+      <ImageWrapper
+        src={profileConfig.avatar}
+        alt={`Profile image of ${profileConfig.name}`}
+        class="profile-avatar-image mx-auto lg:w-full h-full lg:mt-0"
+        loading="eager"
+        fetchpriority="high"
+        widths={[350]}
+        sizes="350px"
+      />
+    ) : (
+      <div class="flex aspect-square w-full items-center justify-center bg-neutral-100 text-5xl font-bold text-neutral-500 dark:bg-neutral-800 dark:text-neutral-300">
+        {profileConfig.name.slice(0, 2).toUpperCase()}
+      </div>
+    )}
   </a>
   <div class="px-2">
     <div

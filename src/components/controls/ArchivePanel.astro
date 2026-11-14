@@ -93,7 +93,9 @@ const foldOnFilter = collapseAllButFirst;
     </div>
   </div>
 
-  {groups.map((group, groupIndex) => {
+  {groups.length === 0 ? (
+    <p class="py-8 text-center text-50">No posts yet.</p>
+  ) : groups.map((group, groupIndex) => {
     const collapsed = collapseAllButFirst && groupIndex > 0;
     return (
       <div class="archive-year-block" data-year={group.year} data-count={group.posts.length}>

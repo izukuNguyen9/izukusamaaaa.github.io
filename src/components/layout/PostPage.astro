@@ -38,6 +38,12 @@ const coverPositionClass =
   data-column-width={columnWidth}
   style={`--post-card-min-width: ${columnWidth}px;`}
 >
+  {page.data.length === 0 && (
+    <div class="card-base px-8 py-12 text-center text-75">
+      <p class="mb-2 text-xl font-semibold">No posts yet</p>
+      <p>New posts will appear here.</p>
+    </div>
+  )}
   {
     page.data.map((entry: PostEntry, index: number) => (
       <PostCard

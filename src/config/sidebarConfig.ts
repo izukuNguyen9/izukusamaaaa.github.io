@@ -13,20 +13,6 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			showOnPostPage: true,
 		},
 		{
-			type: "categories",
-			enable: true,
-			position: "sticky",
-			showOnPostPage: true,
-			specificConfig: { collapseThreshold: 5 },
-		},
-		{
-			type: "tags",
-			enable: true,
-			position: "sticky",
-			showOnPostPage: true,
-			specificConfig: { collapseThreshold: 10 },
-		},
-		{
 			type: "sidebarToc",
 			enable: true,
 			position: "sticky",
