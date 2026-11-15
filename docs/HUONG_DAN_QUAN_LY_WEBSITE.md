@@ -173,13 +173,16 @@ Mục **Earth** có hai nguồn ảnh:
 
 Không cần API key. Dữ liệu tìm kiếm được làm mới mỗi ngày bởi GitHub Actions từ [Earth Search STAC API](https://earth-search.aws.element84.com/); ảnh xem trước dùng [TiTiler](https://titiler.xyz/). Menu được cấu hình trong `src/config/navBarConfig.ts`; trang và giao diện ở `src/pages/earth.astro`, `src/components/pages/EarthGallery.svelte` và `src/components/pages/SentinelGallery.svelte`.
 
-### Mục Mars (ảnh tư liệu NASA về Curiosity và Perseverance)
+### Mục Mars (ảnh camera mới nhất từ Curiosity và Perseverance)
 
-Mục **Mars** dùng [NASA Images API](https://images.nasa.gov/) để tìm ảnh trong danh mục NASA có nhắc đến rover **Curiosity** và **Perseverance**. Chọn rover để xem kết quả; chạm ảnh để mở bản lớn. GitHub Actions làm mới dữ liệu mỗi ngày, không cần API key.
+Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API của [NASA Mars](https://mars.nasa.gov/), không cần API key và không chờ dữ liệu tạo theo lịch:
 
-**Lưu ý:** đây là ảnh tư liệu được NASA lập danh mục, không phải luồng trực tiếp từ camera rover và không đảm bảo là ảnh vừa chụp theo sol mới nhất. Ngày hiển thị là ngày ảnh được ghi trong danh mục NASA. API Mars Rover Photos cũ trong một số hướng dẫn đã nghỉ hoạt động; không tạo hoặc lưu Mars Vista key cho trang này nữa. Nếu secret `MARS_VISTA_API_KEY` không dùng ở nơi khác, có thể xóa trong **Settings → Secrets and variables → Actions**.
+- **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, phân trang tối đa 200 kết quả/lần.
+- **Perseverance (M20):** sol mới nhất lấy từ nguồn ảnh mới nhất; ảnh lấy theo sol, cùng các URL ảnh nhỏ và ảnh gốc.
+- Trường **Sol** chỉ nhận giá trị từ 0 đến sol mới nhất mà NASA trả về. Trường **Camera** được tạo từ những ảnh nhận được của rover/sol đang chọn, không dùng danh sách camera cố định.
+- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Nhấn ảnh để mở ảnh gốc hoặc kích hoạt **Load 50 more** để xem tiếp. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
 
-Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
+Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 
 ## 7. Thay đổi nhạc
 

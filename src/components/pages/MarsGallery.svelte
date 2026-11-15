@@ -1,136 +1,440 @@
 <script lang="ts">
 import { onMount } from "svelte";
 
+type RoverId = "curiosity" | "perseverance";
+
 type MarsPhoto = {
 	id: string;
-	nasaId: string;
+	sol: number;
+	camera: string;
+	dateTaken: string;
 	title: string;
-	catalogDate: string;
 	previewUrl: string;
 	fullImageUrl: string;
-	description?: string;
+	isThumbnail: boolean;
 };
 
-type MarsRover = {
-	id: "curiosity" | "perseverance";
-	name: string;
+type MslPage = {
 	photos: MarsPhoto[];
+	more: boolean;
 };
 
-type MarsGalleryData = {
-	generatedAt: string;
-	rovers: MarsRover[];
-};
+const DISPLAY_BATCH_SIZE = 50;
+const MSL_PAGE_SIZE = 200;
+
+const ROVERS: { id: RoverId; name: string }[] = [
+	{ id: "curiosity", name: "Curiosity" },
+	{ id: "perseverance", name: "Perseverance" },
+];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null;
 }
 
-function isMarsPhoto(value: unknown): value is MarsPhoto {
-	return (
-		isRecord(value) &&
-		typeof value.id === "string" &&
-		typeof value.nasaId === "string" &&
-		typeof value.title === "string" &&
-		typeof value.catalogDate === "string" &&
-		typeof value.previewUrl === "string" &&
-		typeof value.fullImageUrl === "string" &&
-		(value.description === undefined || typeof value.description === "string")
-	);
+function isSol(value: unknown): value is number {
+	return typeof value === "number" && Number.isInteger(value) && value >= 0;
 }
 
-function isMarsRover(value: unknown): value is MarsRover {
-	return (
-		isRecord(value) &&
-		(value.id === "curiosity" || value.id === "perseverance") &&
-		typeof value.name === "string" &&
-		Array.isArray(value.photos) &&
-		value.photos.every(isMarsPhoto)
-	);
-}
-
-function isMarsGalleryData(value: unknown): value is MarsGalleryData {
-	return (
-		isRecord(value) &&
-		typeof value.generatedAt === "string" &&
-		Array.isArray(value.rovers) &&
-		value.rovers.every(isMarsRover)
-	);
-}
-
-let gallery = $state<MarsGalleryData | null>(null);
-let selectedRover = $state<"curiosity" | "perseverance">("perseverance");
-let loading = $state(true);
-let errorMessage = $state("");
-
-const activeRover = $derived(
-	gallery?.rovers.find((rover) => rover.id === selectedRover),
-);
-
-async function loadPhotos() {
-	loading = true;
-	errorMessage = "";
+function nasaImageUrl(value: unknown): string | null {
+	if (typeof value !== "string") return null;
 
 	try {
-		const response = await fetch(
-			`${import.meta.env.BASE_URL}data/mars-photos.json`,
-			{ cache: "no-store" },
+		const url = new URL(value);
+		return url.protocol === "https:" && url.hostname === "mars.nasa.gov"
+			? url.toString()
+			: null;
+	} catch {
+		return null;
+	}
+}
+
+async function fetchJson(url: string, signal: AbortSignal): Promise<unknown> {
+	const response = await fetch(url, {
+		headers: { Accept: "application/json" },
+		signal: AbortSignal.any([signal, AbortSignal.timeout(30_000)]),
+	});
+	if (!response.ok) {
+		throw new Error(`NASA Mars API returned HTTP ${response.status}`);
+	}
+	return response.json();
+}
+
+async function fetchLatestSol(
+	rover: RoverId,
+	signal: AbortSignal,
+): Promise<number> {
+	const url =
+		rover === "curiosity"
+			? "https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/"
+			: "https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020%2Cingenuity&feedtype=json&ver=1.2&latest=true";
+	const data = await fetchJson(url, signal);
+	const latestSol =
+		rover === "curiosity" && isRecord(data) && isRecord(data.latest_data)
+			? data.latest_data.latest_sol
+			: isRecord(data)
+				? data.latest_sol
+				: undefined;
+
+	if (!isSol(latestSol)) {
+		throw new Error(
+			`NASA Mars API returned an invalid latest sol for ${rover}`,
 		);
-		if (!response.ok) {
-			throw new Error(`Mars gallery data returned HTTP ${response.status}`);
+	}
+	return latestSol;
+}
+
+function getMslPhoto(value: unknown): MarsPhoto | null {
+	if (!isRecord(value) || !isSol(value.sol)) return null;
+
+	const camera =
+		typeof value.instrument === "string" ? value.instrument.trim() : "";
+	const imageUrl = nasaImageUrl(value.https_url ?? value.url);
+	if (!camera || !imageUrl) return null;
+	const detailUrl =
+		typeof value.link === "string" && value.link.startsWith("/raw_images/")
+			? `https://mars.nasa.gov${value.link}`
+			: imageUrl;
+
+	return {
+		id:
+			typeof value.imageid === "string"
+				? value.imageid
+				: String(value.id ?? imageUrl),
+		sol: value.sol,
+		camera,
+		dateTaken: typeof value.date_taken === "string" ? value.date_taken : "",
+		title:
+			typeof value.title === "string"
+				? value.title
+				: `Sol ${value.sol}: ${camera}`,
+		previewUrl: imageUrl,
+		fullImageUrl: value.is_thumbnail === true ? detailUrl : imageUrl,
+		isThumbnail: value.is_thumbnail === true,
+	};
+}
+
+function getPerseverancePhotos(value: unknown, sol: number): MarsPhoto[] {
+	if (!isRecord(value) || !Array.isArray(value.images)) {
+		throw new Error("NASA returned an invalid Perseverance image response");
+	}
+
+	return value.images.flatMap((image): MarsPhoto[] => {
+		if (!isRecord(image) || image.sol !== sol || !isRecord(image.camera)) {
+			return [];
 		}
 
-		const data: unknown = await response.json();
-		if (!isMarsGalleryData(data) || data.rovers.length === 0) {
-			throw new Error("Mars gallery data has an unexpected format");
+		const camera =
+			typeof image.camera.instrument === "string"
+				? image.camera.instrument.trim()
+				: "";
+		if (!camera || !isRecord(image.image_files)) return [];
+
+		const previewUrl =
+			nasaImageUrl(image.image_files.small) ??
+			nasaImageUrl(image.image_files.medium) ??
+			nasaImageUrl(image.image_files.large) ??
+			nasaImageUrl(image.image_files.full_res);
+		const fullImageUrl =
+			nasaImageUrl(image.image_files.full_res) ??
+			nasaImageUrl(image.image_files.large) ??
+			nasaImageUrl(image.image_files.medium) ??
+			nasaImageUrl(image.image_files.small);
+		if (!previewUrl || !fullImageUrl) return [];
+
+		return [
+			{
+				id:
+					typeof image.imageid === "string"
+						? image.imageid
+						: `${sol}-${camera}-${previewUrl}`,
+				sol,
+				camera,
+				dateTaken:
+					typeof image.date_taken_utc === "string" ? image.date_taken_utc : "",
+				title:
+					typeof image.title === "string"
+						? image.title
+						: `Sol ${sol}: ${camera}`,
+				previewUrl,
+				fullImageUrl,
+				isThumbnail: true,
+			},
+		];
+	});
+}
+
+async function fetchMslPage(
+	sol: number,
+	page: number,
+	signal: AbortSignal,
+): Promise<MslPage> {
+	const params = new URLSearchParams({
+		order: "sol desc",
+		condition_1: "msl:mission",
+		per_page: String(MSL_PAGE_SIZE),
+		page: String(page),
+		search: String(sol),
+	});
+	const data = await fetchJson(
+		`https://mars.nasa.gov/api/v1/raw_image_items/?${params}`,
+		signal,
+	);
+	if (
+		!isRecord(data) ||
+		!Array.isArray(data.items) ||
+		typeof data.more !== "boolean"
+	) {
+		throw new Error("NASA returned an invalid Curiosity image response");
+	}
+	if (typeof data.error_message === "string" && data.error_message.length > 0) {
+		throw new Error(`Curiosity image search failed: ${data.error_message}`);
+	}
+
+	const matchingPhotos = data.items
+		.map(getMslPhoto)
+		.filter((photo): photo is MarsPhoto => photo !== null)
+		.filter((photo) => photo.sol === sol);
+	const thumbnails = matchingPhotos.filter((photo) => photo.isThumbnail);
+
+	return {
+		photos: thumbnails.length > 0 ? thumbnails : matchingPhotos,
+		more: data.more,
+	};
+}
+
+let selectedRover = $state<RoverId>("curiosity");
+let latestSols = $state<Record<RoverId, number> | null>(null);
+let selectedSol = $state(0);
+let solInput = $state(0);
+let selectedCamera = $state("all");
+let photos = $state<MarsPhoto[]>([]);
+let visibleCount = $state(DISPLAY_BATCH_SIZE);
+let currentPage = $state(1);
+let hasMore = $state(false);
+let loadingLatest = $state(true);
+let loadingPhotos = $state(false);
+let loadingMore = $state(false);
+let errorMessage = $state("");
+let loadMoreError = $state("");
+let photoController: AbortController | null = null;
+let requestId = 0;
+
+const activeRover = $derived(
+	ROVERS.find((rover) => rover.id === selectedRover),
+);
+const maxSol = $derived(latestSols?.[selectedRover] ?? 0);
+const cameraOptions = $derived(
+	[...new Set(photos.map((photo) => photo.camera))].sort(),
+);
+const filteredPhotos = $derived(
+	selectedCamera === "all"
+		? photos
+		: photos.filter((photo) => photo.camera === selectedCamera),
+);
+const visiblePhotos = $derived(filteredPhotos.slice(0, visibleCount));
+const canLoadMore = $derived(
+	filteredPhotos.length > visibleCount ||
+		(selectedRover === "curiosity" && hasMore),
+);
+
+async function loadPhotos(sol: number) {
+	photoController?.abort();
+	const controller = new AbortController();
+	photoController = controller;
+	const currentRequest = ++requestId;
+
+	loadingPhotos = true;
+	errorMessage = "";
+	loadMoreError = "";
+	photos = [];
+	selectedCamera = "all";
+	visibleCount = DISPLAY_BATCH_SIZE;
+	currentPage = 1;
+	hasMore = false;
+
+	try {
+		if (selectedRover === "curiosity") {
+			const page = await fetchMslPage(sol, 1, controller.signal);
+			if (currentRequest !== requestId) return;
+			photos = page.photos;
+			hasMore = page.more;
+		} else {
+			const params = new URLSearchParams({
+				feed: "raw_images",
+				category: "mars2020",
+				feedtype: "json",
+				order: "sol desc",
+				sol: String(sol),
+			});
+			const data = await fetchJson(
+				`https://mars.nasa.gov/rss/api/?${params}`,
+				controller.signal,
+			);
+			if (currentRequest !== requestId) return;
+			photos = getPerseverancePhotos(data, sol);
 		}
 
-		gallery = data;
-		if (!data.rovers.some((rover) => rover.id === selectedRover)) {
-			selectedRover = data.rovers[0].id;
-		}
+		selectedSol = sol;
+		solInput = sol;
 	} catch (error) {
-		console.error("[Mars] Failed to load rover photos:", error);
-		errorMessage = "Could not load Mars rover images. Please try again later.";
+		if (currentRequest !== requestId || controller.signal.aborted) return;
+		console.error(`[Mars] Failed to load ${selectedRover} sol ${sol}:`, error);
+		errorMessage = `Could not load ${activeRover?.name ?? "rover"} images for sol ${sol}. Please try again.`;
 	} finally {
-		loading = false;
+		if (currentRequest === requestId) loadingPhotos = false;
+	}
+}
+
+async function initialize() {
+	loadingLatest = true;
+	errorMessage = "";
+	const controller = new AbortController();
+
+	try {
+		const [curiosity, perseverance] = await Promise.all([
+			fetchLatestSol("curiosity", controller.signal),
+			fetchLatestSol("perseverance", controller.signal),
+		]);
+		latestSols = { curiosity, perseverance };
+		const latestSol = latestSols[selectedRover];
+		await loadPhotos(latestSol);
+	} catch (error) {
+		console.error("[Mars] Failed to load the latest sols:", error);
+		errorMessage =
+			"Could not load the latest Mars rover data. Please try again.";
+	} finally {
+		loadingLatest = false;
+	}
+}
+
+function handleRoverChange() {
+	if (!latestSols) return;
+	const latestSol = latestSols[selectedRover];
+	void loadPhotos(latestSol);
+}
+
+function handleSolSubmit(event: SubmitEvent) {
+	event.preventDefault();
+	const sol = Number(solInput);
+	if (!Number.isInteger(sol) || sol < 0 || sol > maxSol) {
+		errorMessage = `Enter a sol between 0 and ${maxSol}.`;
+		return;
+	}
+	void loadPhotos(sol);
+}
+
+function handleCameraChange() {
+	visibleCount = DISPLAY_BATCH_SIZE;
+}
+
+async function loadMore() {
+	if (filteredPhotos.length > visibleCount) {
+		visibleCount += DISPLAY_BATCH_SIZE;
+		return;
+	}
+	if (selectedRover !== "curiosity" || !hasMore || loadingMore) return;
+
+	const controller = photoController;
+	if (!controller) return;
+	loadingMore = true;
+	loadMoreError = "";
+
+	try {
+		const page = await fetchMslPage(
+			selectedSol,
+			currentPage + 1,
+			controller.signal,
+		);
+		if (controller !== photoController || controller.signal.aborted) return;
+		const ids = new Set(photos.map((photo) => photo.id));
+		photos = [...photos, ...page.photos.filter((photo) => !ids.has(photo.id))];
+		currentPage += 1;
+		hasMore = page.more;
+		visibleCount += DISPLAY_BATCH_SIZE;
+	} catch (error) {
+		if (controller.signal.aborted) return;
+		console.error(
+			`[Mars] Failed to load more images for sol ${selectedSol}:`,
+			error,
+		);
+		loadMoreError = "Could not load more images. Please try again.";
+	} finally {
+		if (controller === photoController) loadingMore = false;
 	}
 }
 
 onMount(() => {
-	void loadPhotos();
+	void initialize();
+	return () => photoController?.abort();
 });
 </script>
 
 <section class="card-base mb-4 p-5 md:p-8">
-	<div
-		class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-	>
-		<div>
-			<h2 class="text-xl font-bold">Mars images from NASA</h2>
-			<p class="mt-1 text-sm text-50">
-				Recent NASA catalog images mentioning Curiosity and Perseverance.
-				These are not a live feed of the rovers' latest camera captures.
-			</p>
-		</div>
+	<div class="mb-6">
+		<h2 class="text-xl font-bold">Latest Mars rover images</h2>
+		<p class="mt-1 text-sm text-50">
+			Browse camera images by rover and sol. The latest available sol is
+			updated directly from NASA.
+		</p>
+	</div>
 
+	<div class="mb-6 grid gap-4 sm:grid-cols-3">
 		<label class="flex flex-col gap-1 text-sm text-50">
 			<span>Rover</span>
 			<select
 				bind:value={selectedRover}
 				class="rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
-				disabled={!gallery}
+				disabled={!latestSols || loadingLatest}
+				onchange={handleRoverChange}
 			>
-				{#each gallery?.rovers ?? [] as rover (rover.id)}
+				{#each ROVERS as rover (rover.id)}
 					<option value={rover.id}>{rover.name}</option>
+				{/each}
+			</select>
+		</label>
+
+		<form class="flex flex-col gap-1 text-sm text-50" onsubmit={handleSolSubmit}>
+			<label for="mars-sol">Sol (0–{maxSol})</label>
+			<div class="flex gap-2">
+				<input
+					id="mars-sol"
+					bind:value={solInput}
+					class="min-w-0 flex-1 rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
+					type="number"
+					min="0"
+					max={maxSol}
+					step="1"
+					disabled={!latestSols || loadingLatest}
+				/>
+				<button
+					class="btn-regular rounded-lg px-4 py-2"
+					type="submit"
+					disabled={!latestSols || loadingLatest}
+				>
+					Go
+				</button>
+			</div>
+		</form>
+
+		<label class="flex flex-col gap-1 text-sm text-50">
+			<span>Camera</span>
+			<select
+				bind:value={selectedCamera}
+				class="rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
+				disabled={cameraOptions.length === 0 || loadingPhotos}
+				onchange={handleCameraChange}
+			>
+				<option value="all">All cameras</option>
+				{#each cameraOptions as camera (camera)}
+					<option value={camera}>{camera}</option>
 				{/each}
 			</select>
 		</label>
 	</div>
 
-	{#if loading}
+	{#if loadingLatest || loadingPhotos}
 		<p class="py-12 text-center text-50" role="status">
-			Loading the latest Mars rover images…
+			Loading the latest {activeRover?.name ?? "Mars rover"} images…
 		</p>
 	{:else if errorMessage}
 		<div class="py-12 text-center" role="status">
@@ -138,30 +442,37 @@ onMount(() => {
 			<button
 				class="btn-regular mt-4 rounded-lg px-4 py-2"
 				type="button"
-				onclick={() => loadPhotos()}
+				onclick={() => initialize()}
 			>
 				Try again
 			</button>
 		</div>
-	{:else if activeRover}
+	{:else}
 		<div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
 			<p class="text-sm text-50">
-				{activeRover.name} · {activeRover.photos.length} catalog images
+				{activeRover?.name} · Sol {selectedSol} · Latest sol {maxSol} ·
+				{filteredPhotos.length} {selectedCamera === "all" ? "images" : selectedCamera + " images"}
 			</p>
-			{#if gallery}
-				<p class="text-xs text-50">
-					Updated {new Date(gallery.generatedAt).toLocaleString()}
-				</p>
-			{/if}
+			<a
+				class="text-xs underline hover:text-(--primary)"
+				href={selectedRover === "curiosity"
+					? "https://mars.nasa.gov/msl/multimedia/raw-images/"
+					: "https://mars.nasa.gov/mars2020/multimedia/raw-images/"}
+				target="_blank"
+				rel="noreferrer"
+			>
+				View NASA raw image archive
+			</a>
 		</div>
 
-		{#if activeRover.photos.length === 0}
+		{#if filteredPhotos.length === 0}
 			<p class="py-12 text-center text-50" role="status">
-				No NASA catalog images were found for this rover.
+				No images were found for {activeRover?.name} on sol {selectedSol}. Try
+				another sol or camera.
 			</p>
 		{:else}
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-				{#each activeRover.photos as photo (photo.id)}
+				{#each visiblePhotos as photo (photo.id)}
 					<article
 						class="overflow-hidden rounded-xl border border-(--line-divider)"
 					>
@@ -169,7 +480,7 @@ onMount(() => {
 							href={photo.fullImageUrl}
 							target="_blank"
 							rel="noreferrer"
-							aria-label={`Open full-resolution NASA image: ${photo.title}`}
+							aria-label={`Open original NASA image: ${photo.title}`}
 						>
 							<img
 								src={photo.previewUrl}
@@ -182,23 +493,41 @@ onMount(() => {
 						<div class="p-4">
 							<p class="font-semibold">{photo.title}</p>
 							<p class="mt-1 text-sm text-50">
-								NASA catalog date: {photo.catalogDate.slice(0, 10)}
+								Sol {photo.sol} · {photo.camera}
 							</p>
-							{#if photo.description}
-								<p class="mt-2 line-clamp-4 text-sm text-75">
-									{photo.description}
+							{#if photo.dateTaken}
+								<p class="mt-1 text-xs text-50">
+									{photo.dateTaken.slice(0, 10)}
 								</p>
 							{/if}
 						</div>
 					</article>
 				{/each}
 			</div>
+
+			{#if loadMoreError}
+				<p class="mt-4 text-center text-sm text-75" role="alert">
+					{loadMoreError}
+				</p>
+			{/if}
+			{#if canLoadMore}
+				<div class="mt-6 text-center">
+					<button
+						class="btn-regular rounded-lg px-4 py-2"
+						type="button"
+						disabled={loadingMore}
+						onclick={() => loadMore()}
+					>
+						{loadingMore ? "Loading…" : `Load ${DISPLAY_BATCH_SIZE} more`}
+					</button>
+				</div>
+			{/if}
 		{/if}
 	{/if}
 </section>
 
 <p class="text-center text-xs text-50">
-	Search results and imagery courtesy of
+	Images courtesy of
 	<a
 		class="underline hover:text-(--primary)"
 		href="https://mars.nasa.gov/"
@@ -206,14 +535,5 @@ onMount(() => {
 		rel="noreferrer"
 	>
 		NASA/JPL-Caltech
-	</a>
-	via
-	<a
-		class="underline hover:text-(--primary)"
-		href="https://images.nasa.gov/"
-		target="_blank"
-		rel="noreferrer"
-	>
-		NASA Images
 	</a>.
 </p>
