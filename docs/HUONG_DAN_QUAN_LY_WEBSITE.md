@@ -180,7 +180,7 @@ Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API c�
 - **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, phân trang tối đa 200 kết quả/lần.
 - **Perseverance (M20):** sol mới nhất lấy từ nguồn ảnh mới nhất; ảnh lấy theo sol, cùng các URL ảnh nhỏ và ảnh gốc.
 - Trường **Sol** chỉ nhận giá trị từ 0 đến sol mới nhất mà NASA trả về. Trường **Camera** được tạo từ những ảnh nhận được của rover/sol đang chọn, không dùng danh sách camera cố định.
-- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Nhấn ảnh để mở ảnh gốc hoặc kích hoạt **Load 50 more** để xem tiếp. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
+- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang ưu tiên ảnh không phải thumbnail khi NASA đã trả ảnh đó; với Perseverance, ảnh xem trước dùng bản lớn (1200 px) và liên kết **Open original image** mở PNG gốc. Nhấn ảnh hoặc liên kết bên dưới ảnh để mở bản NASA tương ứng; kích hoạt **Load 50 more** để xem tiếp. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
 
 Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 

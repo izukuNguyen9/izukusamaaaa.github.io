@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 type RoverId = "curiosity" | "perseverance";
 
@@ -130,9 +130,9 @@ function getPerseverancePhotos(value: unknown, sol: number): MarsPhoto[] {
 		if (!camera || !isRecord(image.image_files)) return [];
 
 		const previewUrl =
-			nasaImageUrl(image.image_files.small) ??
-			nasaImageUrl(image.image_files.medium) ??
 			nasaImageUrl(image.image_files.large) ??
+			nasaImageUrl(image.image_files.medium) ??
+			nasaImageUrl(image.image_files.small) ??
 			nasaImageUrl(image.image_files.full_res);
 		const fullImageUrl =
 			nasaImageUrl(image.image_files.full_res) ??
@@ -157,7 +157,7 @@ function getPerseverancePhotos(value: unknown, sol: number): MarsPhoto[] {
 						: `Sol ${sol}: ${camera}`,
 				previewUrl,
 				fullImageUrl,
-				isThumbnail: true,
+				isThumbnail: false,
 			},
 		];
 	});
@@ -194,10 +194,10 @@ async function fetchMslPage(
 		.map(getMslPhoto)
 		.filter((photo): photo is MarsPhoto => photo !== null)
 		.filter((photo) => photo.sol === sol);
-	const thumbnails = matchingPhotos.filter((photo) => photo.isThumbnail);
+	const fullImages = matchingPhotos.filter((photo) => !photo.isThumbnail);
 
 	return {
-		photos: thumbnails.length > 0 ? thumbnails : matchingPhotos,
+		photos: fullImages.length > 0 ? fullImages : matchingPhotos,
 		more: data.more,
 	};
 }
@@ -216,6 +216,8 @@ let loadingPhotos = $state(false);
 let loadingMore = $state(false);
 let errorMessage = $state("");
 let loadMoreError = $state("");
+let selectedPhoto = $state<MarsPhoto | null>(null);
+let imageDialog: HTMLDialogElement;
 let photoController: AbortController | null = null;
 let requestId = 0;
 
@@ -325,6 +327,16 @@ function handleSolSubmit(event: SubmitEvent) {
 
 function handleCameraChange() {
 	visibleCount = DISPLAY_BATCH_SIZE;
+}
+
+async function openImage(photo: MarsPhoto) {
+	selectedPhoto = photo;
+	await tick();
+	if (!imageDialog.open) imageDialog.showModal();
+}
+
+function handleDialogClick(event: MouseEvent) {
+	if (event.target === imageDialog) imageDialog.close();
 }
 
 async function loadMore() {
@@ -476,20 +488,20 @@ onMount(() => {
 					<article
 						class="overflow-hidden rounded-xl border border-(--line-divider)"
 					>
-						<a
-							href={photo.fullImageUrl}
-							target="_blank"
-							rel="noreferrer"
-							aria-label={`Open original NASA image: ${photo.title}`}
+						<button
+							class="block w-full cursor-zoom-in bg-black"
+							type="button"
+							aria-label={`View larger image: ${photo.title}`}
+							onclick={() => openImage(photo)}
 						>
 							<img
 								src={photo.previewUrl}
 								alt={photo.title}
-								class="aspect-[4/3] w-full bg-black object-contain"
+								class="aspect-[4/3] w-full object-contain"
 								loading="lazy"
 								decoding="async"
 							/>
-						</a>
+						</button>
 						<div class="p-4">
 							<p class="font-semibold">{photo.title}</p>
 							<p class="mt-1 text-sm text-50">
@@ -500,6 +512,16 @@ onMount(() => {
 									{photo.dateTaken.slice(0, 10)}
 								</p>
 							{/if}
+							<a
+								class="mt-2 inline-block text-sm underline hover:text-(--primary)"
+								href={photo.fullImageUrl}
+								target="_blank"
+								rel="noreferrer"
+							>
+								{photo.isThumbnail
+									? "NASA image details (thumbnail only)"
+									: "Open original image"}
+							</a>
 						</div>
 					</article>
 				{/each}
@@ -524,6 +546,44 @@ onMount(() => {
 			{/if}
 		{/if}
 	{/if}
+
+	<dialog
+		bind:this={imageDialog}
+		class="m-auto max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-black p-3 text-white shadow-2xl backdrop:bg-black/80"
+		onclick={handleDialogClick}
+		onclose={() => (selectedPhoto = null)}
+	>
+		{#if selectedPhoto}
+			<div class="mb-2 flex items-center justify-between gap-4">
+				<p class="text-sm">{selectedPhoto.title}</p>
+				<button
+					class="rounded-lg border border-white/40 px-3 py-1 text-sm hover:bg-white/10"
+					type="button"
+					onclick={() => imageDialog.close()}
+				>
+					Close
+				</button>
+			</div>
+			<img
+				src={selectedPhoto.isThumbnail
+					? selectedPhoto.previewUrl
+					: selectedPhoto.fullImageUrl}
+				alt={selectedPhoto.title}
+				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+				decoding="async"
+			/>
+			<a
+				class="mt-2 inline-block text-sm underline hover:text-white/80"
+				href={selectedPhoto.fullImageUrl}
+				target="_blank"
+				rel="noreferrer"
+			>
+				{selectedPhoto.isThumbnail
+					? "Open NASA image details"
+					: "Open original image in new tab"}
+			</a>
+		{/if}
+	</dialog>
 </section>
 
 <p class="text-center text-xs text-50">
