@@ -199,14 +199,9 @@ async function getPhotosForRover(
 }
 
 async function main() {
-	const apiKey = process.env.MARS_VISTA_API_KEY?.trim();
+	const apiKey = process.env.MARS_VISTA_API_KEY?.replace(/\s/g, "");
 	if (!apiKey) {
 		throw new Error("Set MARS_VISTA_API_KEY in GitHub Actions Secrets");
-	}
-	if (/[\r\n]/.test(apiKey)) {
-		throw new Error(
-			"MARS_VISTA_API_KEY must contain a single line; remove line breaks from the secret",
-		);
 	}
 
 	const roverData = await fetchJson(`${API_BASE_URL}/rovers`, apiKey);
