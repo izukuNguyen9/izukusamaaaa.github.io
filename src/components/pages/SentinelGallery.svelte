@@ -1,7 +1,7 @@
 <script lang="ts">
 import "leaflet/dist/leaflet.css";
 import type * as Leaflet from "leaflet";
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 type SentinelScene = {
 	id: string;
@@ -133,6 +133,10 @@ onMount(() => {
 			if (disposed) return;
 
 			leaflet = leafletModule;
+			gallery = data;
+			await tick();
+			if (disposed) return;
+
 			map = leafletModule.map(mapElement, {
 				scrollWheelZoom: false,
 				attributionControl: true,
@@ -144,7 +148,7 @@ onMount(() => {
 						'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 				})
 				.addTo(map);
-			gallery = data;
+			updateMapScene(showLatest ? data.latest : data.selected);
 		} catch (error) {
 			console.error("[Earth] Failed to load Sentinel-2 scenes:", error);
 			errorMessage =
