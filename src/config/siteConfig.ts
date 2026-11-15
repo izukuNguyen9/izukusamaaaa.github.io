@@ -42,7 +42,7 @@ const pages = resolvePageToggles({
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Izuku Nguyen",
+	title: "IzukuNguyen",
 
 	// 站点副标题
 	subtitle: "Personal blog",
@@ -53,10 +53,10 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"The personal blog of Izuku Nguyen, a planetary scientist and astrobiologist.",
+		"The personal blog of IzukuNguyen, a planetary scientist and astrobiologist.",
 
 	// 站点关键词
-	keywords: ["Izuku Nguyen", "planetary science", "astrobiology", "blog"],
+	keywords: ["IzukuNguyen", "planetary science", "astrobiology", "blog"],
 
 	// 主题色
 	themeColor: {
@@ -108,7 +108,7 @@ export const siteConfig: SiteConfig = {
 			value: "material-symbols:public",
 		},
 		// 导航栏标题
-		title: "Izuku Nguyen",
+		title: "IzukuNguyen",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
