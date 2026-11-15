@@ -1,56 +1,202 @@
 {
-  "generatedAt": "2026-11-15T16:01:54.350Z",
-  "region": "Vietnam",
+  "generatedAt": "2026-11-15T16:17:22.227Z",
   "searchDays": 90,
-  "cloudThreshold": 25,
-  "selectedByCloudFallback": false,
-  "selected": {
-    "id": "S2A_T48PUB_20261115T034354_L2A",
-    "datetime": "2026-11-15T03:44:10.098000Z",
-    "cloudCover": 24.158035,
-    "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2A_T48PUB_20261115T034354_L2A",
-    "tileJson": {
-      "tiles": [
-        "https://titiler.xyz/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2A_T48PUB_20261115T034354_L2A&assets=visual&tilesize=512"
-      ],
+  "resultCount": 100,
+  "scenes": [
+    {
+      "id": "S2C_T23KQP_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:41.992000Z",
+      "cloudCover": 100,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KQP_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KQP_20261115T125304_L2A&assets=visual",
       "bounds": [
-        103.13671108562895,
-        14.377132874319605,
-        104.16336579580394,
-        15.375553617683709
-      ],
-      "center": [
-        103.65003844071644,
-        14.876343246001657,
-        8
-      ],
-      "minzoom": 8,
-      "maxzoom": 14
-    }
-  },
-  "latest": {
-    "id": "S2A_T47PRK_20261115T034354_L2A",
-    "datetime": "2026-11-15T03:45:56.996000Z",
-    "cloudCover": 99.99699,
-    "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2A_T47PRK_20261115T034354_L2A",
-    "tileJson": {
-      "tiles": [
-        "https://titiler.xyz/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2A_T47PRK_20261115T034354_L2A&assets=visual&tilesize=512"
-      ],
+        -42.383363,
+        -23.690088,
+        -41.962722,
+        -23.480502
+      ]
+    },
+    {
+      "id": "S2C_T24KTU_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:40.610000Z",
+      "cloudCover": 100,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KTU_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KTU_20261115T125304_L2A&assets=visual",
       "bounds": [
-        101.72146757415182,
-        8.036744648101147,
-        102.72595704941173,
-        9.036590153051211
-      ],
-      "center": [
-        102.22371231178178,
-        8.536667400576178,
-        8
-      ],
-      "minzoom": 8,
-      "maxzoom": 14
+        -41.941935,
+        -23.909609,
+        -40.862841,
+        -23.482328
+      ]
+    },
+    {
+      "id": "S2C_T23KRP_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:40.545000Z",
+      "cloudCover": 100,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KRP_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KRP_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -42.063171,
+        -23.886706,
+        -40.976901,
+        -23.458403
+      ]
+    },
+    {
+      "id": "S2C_T24KUU_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:39.108000Z",
+      "cloudCover": 80.264598,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KUU_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KUU_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -40.964412,
+        -24.132985,
+        -39.883482,
+        -23.497709
+      ]
+    },
+    {
+      "id": "S2C_T24KVU_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:37.394000Z",
+      "cloudCover": 54.520595,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KVU_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KVU_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -39.984372,
+        -24.216556,
+        -39.390266,
+        -23.506941
+      ]
+    },
+    {
+      "id": "S2C_T23KQQ_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:35.857000Z",
+      "cloudCover": 99.131221,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KQQ_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KQQ_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -42.374004,
+        -23.576145,
+        -41.965523,
+        -22.578243
+      ]
+    },
+    {
+      "id": "S2C_T23KRQ_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:31.783000Z",
+      "cloudCover": 97.096306,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KRQ_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KRQ_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -42.082674,
+        -23.570541,
+        -40.98734,
+        -22.557086
+      ]
+    },
+    {
+      "id": "S2C_T24KTV_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:31.541000Z",
+      "cloudCover": 98.007441,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KTV_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KTV_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -41.939161,
+        -23.587159,
+        -40.850457,
+        -22.579991
+      ]
+    },
+    {
+      "id": "S2C_T24KUV_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:28.445000Z",
+      "cloudCover": 99.648267,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KUV_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KUV_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -40.959863,
+        -23.59583,
+        -39.877606,
+        -22.594716
+      ]
+    },
+    {
+      "id": "S2C_T24KVV_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:24.992000Z",
+      "cloudCover": 86.129653,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KVV_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KVV_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -39.980479,
+        -23.596719,
+        -39.176924,
+        -22.603554
+      ]
+    },
+    {
+      "id": "S2C_T23KQR_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:24.829000Z",
+      "cloudCover": 89.064115,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KQR_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KQR_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -42.138123,
+        -22.669792,
+        -41.986718,
+        -22.133552
+      ]
+    },
+    {
+      "id": "S2C_T23KRR_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:17.524000Z",
+      "cloudCover": 99.303317,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T23KRR_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T23KRR_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -42.085106,
+        -22.668757,
+        -41.014046,
+        -21.656181
+      ]
+    },
+    {
+      "id": "S2C_T24KTA_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:17.085000Z",
+      "cloudCover": 99.813676,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KTA_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KTA_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -41.91957,
+        -22.684668,
+        -40.838695,
+        -21.678357
+      ]
+    },
+    {
+      "id": "S2C_T24KUA_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:14.075000Z",
+      "cloudCover": 87.005401,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KUA_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KUA_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -40.946787,
+        -22.69297,
+        -39.872024,
+        -21.692156
+      ]
+    },
+    {
+      "id": "S2C_T24KVA_20261115T125304_L2A",
+      "datetime": "2026-11-15T12:58:10.365000Z",
+      "cloudCover": 76.554251,
+      "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2C_T24KVA_20261115T125304_L2A",
+      "previewUrl": "https://titiler.xyz/stac/preview/640x400.jpg?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2C_T24KVA_20261115T125304_L2A&assets=visual",
+      "bounds": [
+        -39.973934,
+        -22.693813,
+        -38.96523,
+        -21.700606
+      ]
     }
-  },
-  "resultCount": 100
+  ]
 }

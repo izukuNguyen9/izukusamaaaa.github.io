@@ -169,9 +169,9 @@ Các trang tùy chọn như VNDB, Bangumi, Projects và Friends được bật/t
 Mục **Earth** có hai nguồn ảnh:
 
 - **NASA EPIC:** ảnh tự nhiên gần thời gian thực; có thể chọn ngày và chạm ảnh để mở PNG độ phân giải cao.
-- **Sentinel-2:** bản đồ ảnh vệ tinh Level-2A trên Việt Nam. GitHub Actions tìm tối đa 100 cảnh trong 90 ngày gần nhất, sắp xếp mới nhất trước, rồi chọn cảnh mới nhất có độ mây không quá 25%. Nếu không có cảnh đạt ngưỡng, trang chọn cảnh ít mây nhất trong kết quả. Trang luôn hiển thị ngày và tỷ lệ mây; nút **Show newest anyway** chuyển sang cảnh mới nhất bất kể mây. Có thể kéo/zoom bản đồ và bấm nút để quay về cảnh ít mây đã chọn.
+- **Sentinel-2:** 15 cảnh vệ tinh Level-2A mới nhất trên toàn cầu trong 90 ngày gần nhất. GitHub Actions lấy tối đa 100 kết quả, sắp xếp theo thời gian chụp giảm dần và hiển thị 15 cảnh đầu tiên. Mỗi ảnh ghi ngày chụp, độ mây và mã cảnh; ảnh nhiều mây vẫn được hiển thị vì danh sách ưu tiên cảnh mới nhất, không lọc theo độ mây.
 
-Không cần API key. Dữ liệu tìm kiếm và TileJSON được làm mới mỗi ngày bởi GitHub Actions từ [Earth Search STAC API](https://earth-search.aws.element84.com/) và [TiTiler](https://titiler.xyz/). Menu được cấu hình trong `src/config/navBarConfig.ts`; trang và giao diện ở `src/pages/earth.astro`, `src/components/pages/EarthGallery.svelte` và `src/components/pages/SentinelGallery.svelte`.
+Không cần API key. Dữ liệu tìm kiếm được làm mới mỗi ngày bởi GitHub Actions từ [Earth Search STAC API](https://earth-search.aws.element84.com/); ảnh xem trước dùng [TiTiler](https://titiler.xyz/). Menu được cấu hình trong `src/config/navBarConfig.ts`; trang và giao diện ở `src/pages/earth.astro`, `src/components/pages/EarthGallery.svelte` và `src/components/pages/SentinelGallery.svelte`.
 
 ### Mục Mars (ảnh tư liệu NASA về Curiosity và Perseverance)
 
