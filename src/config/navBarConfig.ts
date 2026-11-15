@@ -20,6 +20,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "material-symbols:article",
 	});
 	links.push(LinkPresets.Gallery);
+	links.push({
+		name: "Earth",
+		url: "/earth/",
+		icon: "material-symbols:public",
+	});
 	links.push(LinkPresets.About);
 
 	return { links } as NavBarConfig;

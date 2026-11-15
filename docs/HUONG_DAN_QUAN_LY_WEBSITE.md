@@ -164,6 +164,12 @@ Gallery đang được bật nhưng hiện chưa có album mẫu. Để thêm al
 
 Các trang tùy chọn như VNDB, Bangumi, Projects và Friends được bật/tắt trong `pages` ở `src/config/siteConfig.ts`. Đặt giá trị `true` để bật hoặc `false` để tắt. Chỉ bật trang khi đã chuẩn bị nội dung và cấu hình tương ứng.
 
+### Mục Earth (ảnh Trái Đất của NASA)
+
+Mục **Earth** gọi API công khai của [NASA EPIC](https://epic.gsfc.nasa.gov/about/api) để lấy ảnh tự nhiên mới nhất. Trang cho phép chọn ngày; chạm ảnh để mở PNG độ phân giải cao. Cần kết nối Internet để lấy dữ liệu. Nếu NASA API tạm thời không hoạt động, thử lại sau.
+
+Không cần API key. Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện ở `src/pages/earth.astro` và `src/components/pages/EarthGallery.svelte`.
+
 ## 7. Thay đổi nhạc
 
 Trình phát hiện dùng playlist cục bộ, cấu hình tại [src/config/musicConfig.ts](../src/config/musicConfig.ts).

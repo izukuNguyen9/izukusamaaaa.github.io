@@ -1,0 +1,8 @@
+---
+import EarthGallery from "@/components/pages/EarthGallery.svelte";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+---
+
+<MainGridLayout title="Earth" description="Daily views of Earth from NASA EPIC.">
+	<EarthGallery client:load />
+</MainGridLayout>
