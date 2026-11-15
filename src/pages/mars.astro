@@ -1,0 +1,11 @@
+---
+import MarsGallery from "@/components/pages/MarsGallery.svelte";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+---
+
+<MainGridLayout
+	title="Mars"
+	description="The latest images from NASA's Curiosity and Perseverance rovers."
+>
+	<MarsGallery client:load />
+</MainGridLayout>

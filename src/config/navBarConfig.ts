@@ -25,6 +25,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		url: "/earth/",
 		icon: "material-symbols:public",
 	});
+	links.push({
+		name: "Mars",
+		url: "/mars/",
+		icon: "material-symbols:rocket-launch",
+	});
 	links.push(LinkPresets.About);
 
 	return { links } as NavBarConfig;
