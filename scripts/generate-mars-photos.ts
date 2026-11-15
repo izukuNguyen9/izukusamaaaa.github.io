@@ -1,29 +1,30 @@
 import { mkdir, writeFile } from "node:fs/promises";
 
-const API_BASE_URL = "https://api.marsvista.dev/api/v2";
-const ROVER_IDS = ["curiosity", "perseverance"] as const;
-const MAX_PAGES_PER_ROVER = 100;
+const API_BASE_URL = "https://images-api.nasa.gov";
+const ROVERS = [
+	{ id: "curiosity", name: "Curiosity", startYear: 2012 },
+	{ id: "perseverance", name: "Perseverance", startYear: 2021 },
+] as const;
+const PAGE_SIZE = 100;
+const MAX_SEARCH_PAGES = 30;
+const PHOTOS_PER_ROVER = 18;
 const OUTPUT_PATH = "public/data/mars-photos.json";
 
-type RoverId = (typeof ROVER_IDS)[number];
+type RoverId = (typeof ROVERS)[number]["id"];
 
 type MarsPhoto = {
 	id: string;
-	cameraId: string;
-	cameraName: string;
-	sol: number;
-	earthDate: string;
-	takenAt: string;
+	nasaId: string;
+	title: string;
+	catalogDate: string;
+	previewUrl: string;
 	imageUrl: string;
-	fullImageUrl: string;
-	title?: string;
+	description?: string;
 };
 
 type MarsRover = {
 	id: RoverId;
 	name: string;
-	latestSol: number;
-	earthDate: string;
 	photos: MarsPhoto[];
 };
 
@@ -31,195 +32,177 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null;
 }
 
-function requiredString(value: unknown, field: string): string {
+function getHttpsUrl(value: unknown, field: string): string {
 	if (typeof value !== "string" || value.length === 0) {
-		throw new Error(`Mars Vista API returned an invalid ${field}`);
+		throw new Error(`NASA Images API returned an invalid ${field}`);
 	}
-	return value;
+
+	const url = new URL(value);
+	if (url.protocol === "http:") url.protocol = "https:";
+	if (url.protocol !== "https:") {
+		throw new Error(`NASA Images API returned a non-HTTPS ${field}`);
+	}
+	return url.toString();
 }
 
-function requiredNumber(value: unknown, field: string): number {
-	if (typeof value !== "number" || !Number.isFinite(value)) {
-		throw new Error(`Mars Vista API returned an invalid ${field}`);
-	}
-	return value;
-}
-
-function imageUrl(value: unknown, field: string): string {
-	const url = requiredString(value, field);
-	if (new URL(url).protocol !== "https:") {
-		throw new Error(`Mars Vista API returned a non-HTTPS ${field}`);
-	}
-	return url;
-}
-
-async function fetchJson(url: string, apiKey: string): Promise<unknown> {
+async function fetchJson(url: string): Promise<unknown> {
 	const response = await fetch(url, {
-		headers: {
-			"X-API-Key": apiKey,
-			Accept: "application/json",
-		},
+		headers: { Accept: "application/json" },
 		signal: AbortSignal.timeout(30_000),
 	});
 	if (!response.ok) {
-		throw new Error(`Mars Vista API returned HTTP ${response.status}`);
+		throw new Error(`NASA Images API returned HTTP ${response.status}`);
 	}
 	return response.json();
 }
 
-function getRoverEntries(data: unknown): unknown[] {
-	if (!isRecord(data) || !Array.isArray(data.data)) {
-		throw new Error("Mars Vista API returned an invalid rover list");
+function getSearchCollection(data: unknown) {
+	if (
+		!isRecord(data) ||
+		!isRecord(data.collection) ||
+		!Array.isArray(data.collection.items) ||
+		!isRecord(data.collection.metadata) ||
+		typeof data.collection.metadata.total_hits !== "number"
+	) {
+		throw new Error("NASA Images API returned an invalid search response");
 	}
-	return data.data;
-}
 
-function getLatestSol(entry: unknown, roverId: RoverId) {
-	if (!isRecord(entry) || entry.id !== roverId || !isRecord(entry.attributes)) {
-		throw new Error(`Mars Vista API omitted ${roverId} rover metadata`);
-	}
 	return {
-		name: requiredString(entry.attributes.name, `${roverId} name`),
-		maxSol: requiredNumber(entry.attributes.max_sol, `${roverId} latest sol`),
-		maxDate: requiredString(
-			entry.attributes.max_date,
-			`${roverId} latest date`,
-		),
+		items: data.collection.items,
+		totalHits: data.collection.metadata.total_hits,
 	};
 }
 
-function parsePhoto(value: unknown, roverId: RoverId): MarsPhoto {
+function getPhotoMetadata(value: unknown, roverName: string) {
 	if (
 		!isRecord(value) ||
-		!isRecord(value.attributes) ||
-		!isRecord(value.relationships) ||
-		!isRecord(value.relationships.camera)
+		!Array.isArray(value.data) ||
+		!Array.isArray(value.links)
 	) {
-		throw new Error(`Mars Vista API returned an invalid ${roverId} photo`);
+		return null;
 	}
 
-	const attributes = value.attributes;
-	const images = attributes.images;
-	const camera = value.relationships.camera;
-	const photoId = value.id;
-	if (!isRecord(images)) {
-		throw new Error(`Mars Vista API returned invalid ${roverId} image URLs`);
+	const metadata = value.data[0];
+	if (
+		!isRecord(metadata) ||
+		typeof metadata.nasa_id !== "string" ||
+		typeof metadata.title !== "string" ||
+		!metadata.title.toLowerCase().includes(roverName.toLowerCase()) ||
+		typeof metadata.date_created !== "string"
+	) {
+		return null;
 	}
-	if (typeof photoId !== "number" && typeof photoId !== "string") {
-		throw new Error(`Mars Vista API returned an invalid ${roverId} photo id`);
-	}
-	const cameraId = requiredString(camera.id, `${roverId} camera id`);
-	const cameraAttributes = isRecord(camera.attributes) ? camera.attributes : {};
-	const fullImageUrl = imageUrl(
-		images.full ?? images.large ?? images.medium ?? images.small,
-		`${roverId} full image URL`,
+
+	const preview = value.links.find(
+		(link) => isRecord(link) && link.rel === "preview",
 	);
+	if (!isRecord(preview)) return null;
 
 	return {
-		id: String(photoId),
-		cameraId,
-		cameraName:
-			typeof cameraAttributes.full_name === "string"
-				? cameraAttributes.full_name
-				: cameraId,
-		sol: requiredNumber(attributes.sol, `${roverId} photo sol`),
-		earthDate: requiredString(attributes.earth_date, `${roverId} photo date`),
-		takenAt: requiredString(
-			attributes.date_taken_utc,
-			`${roverId} photo timestamp`,
-		),
-		imageUrl: imageUrl(
-			images.medium ?? images.small ?? images.large ?? images.full,
-			`${roverId} preview image URL`,
-		),
-		fullImageUrl,
-		...(typeof attributes.title === "string"
-			? { title: attributes.title }
+		nasaId: metadata.nasa_id,
+		title: metadata.title.trim(),
+		catalogDate: metadata.date_created,
+		previewUrl: getHttpsUrl(preview.href, "preview URL"),
+		...(typeof metadata.description === "string"
+			? { description: metadata.description }
 			: {}),
 	};
 }
 
-async function getPhotosForRover(
-	roverId: RoverId,
-	latestSol: number,
-	apiKey: string,
+async function getSearchResults(
+	rover: (typeof ROVERS)[number],
 ): Promise<MarsPhoto[]> {
-	const photos: MarsPhoto[] = [];
-	let totalPages = 1;
-
-	for (let page = 1; page <= totalPages; page++) {
-		if (page > MAX_PAGES_PER_ROVER) {
-			throw new Error(
-				`Mars Vista API returned too many pages for ${roverId}'s latest sol`,
-			);
-		}
-
-		const params = new URLSearchParams({
-			rovers: roverId,
-			sol_min: String(latestSol),
-			sol_max: String(latestSol),
-			per_page: "100",
-			sort: "-date_taken_utc",
-			include: "rover,camera",
-			image_sizes: "small,medium,large,full",
-			page: String(page),
-		});
-		const data = await fetchJson(
-			`${API_BASE_URL}/photos?${params.toString()}`,
-			apiKey,
-		);
-		if (!isRecord(data) || !Array.isArray(data.data)) {
-			throw new Error(`Mars Vista API returned invalid ${roverId} photos`);
-		}
-
-		for (const item of data.data) {
-			const photo = parsePhoto(item, roverId);
-			if (photo.sol === latestSol) photos.push(photo);
-		}
-
-		if (page === 1 && isRecord(data.pagination)) {
-			const responsePages = data.pagination.total_pages;
-			if (
-				typeof responsePages === "number" &&
-				Number.isInteger(responsePages) &&
-				responsePages > 0
-			) {
-				totalPages = responsePages;
-			}
-		}
-	}
-
-	if (photos.length === 0) {
+	const results: ReturnType<typeof getPhotoMetadata>[] = [];
+	const params = new URLSearchParams({
+		q: `${rover.name} Mars rover`,
+		media_type: "image",
+		year_start: String(rover.startYear),
+		year_end: String(new Date().getUTCFullYear()),
+		page_size: String(PAGE_SIZE),
+		page: "1",
+	});
+	const firstPage = getSearchCollection(
+		await fetchJson(`${API_BASE_URL}/search?${params.toString()}`),
+	);
+	const totalPages = Math.ceil(firstPage.totalHits / PAGE_SIZE);
+	if (totalPages > MAX_SEARCH_PAGES) {
 		throw new Error(
-			`Mars Vista API has no ${roverId} photos for Sol ${latestSol}`,
+			`NASA Images API returned too many search results for ${rover.name}`,
 		);
 	}
 
-	return photos.sort((a, b) => b.takenAt.localeCompare(a.takenAt));
+	const items = [...firstPage.items];
+	for (let page = 2; page <= totalPages; page++) {
+		params.set("page", String(page));
+		const result = getSearchCollection(
+			await fetchJson(`${API_BASE_URL}/search?${params.toString()}`),
+		);
+		items.push(...result.items);
+	}
+
+	for (const item of items) {
+		const metadata = getPhotoMetadata(item, rover.name);
+		if (metadata) results.push(metadata);
+	}
+
+	results.sort((a, b) =>
+		(b?.catalogDate ?? "").localeCompare(a?.catalogDate ?? ""),
+	);
+	const selected = results
+		.filter((photo): photo is NonNullable<typeof photo> => photo !== null)
+		.slice(0, PHOTOS_PER_ROVER);
+	if (selected.length === 0) {
+		throw new Error(`NASA Images API returned no ${rover.name} image results`);
+	}
+
+	const photos: MarsPhoto[] = [];
+	for (const photo of selected) {
+		photos.push({
+			id: photo.nasaId,
+			nasaId: photo.nasaId,
+			title: photo.title,
+			catalogDate: photo.catalogDate,
+			previewUrl: photo.previewUrl,
+			imageUrl: await getFullImageUrl(photo.nasaId),
+			...(photo.description ? { description: photo.description } : {}),
+		});
+	}
+
+	return photos;
+}
+
+async function getFullImageUrl(nasaId: string): Promise<string> {
+	const data = await fetchJson(
+		`${API_BASE_URL}/asset/${encodeURIComponent(nasaId)}`,
+	);
+	if (
+		!isRecord(data) ||
+		!isRecord(data.collection) ||
+		!Array.isArray(data.collection.items)
+	) {
+		throw new Error(`NASA Images API returned invalid assets for ${nasaId}`);
+	}
+
+	const urls = data.collection.items
+		.filter(
+			(item): item is { href: string } =>
+				isRecord(item) && typeof item.href === "string",
+		)
+		.map((item) => item.href);
+	const imageUrl =
+		urls.find((url) => /~orig\.(jpe?g|png)$/i.test(url)) ??
+		urls.find((url) => /~large\.(jpe?g|png)$/i.test(url)) ??
+		urls.find((url) => /\.(jpe?g|png)$/i.test(url));
+	return getHttpsUrl(imageUrl, `${nasaId} image URL`);
 }
 
 async function main() {
-	const apiKey = process.env.MARS_VISTA_API_KEY?.replace(/\s/g, "");
-	if (!apiKey) {
-		throw new Error("Set MARS_VISTA_API_KEY in GitHub Actions Secrets");
-	}
-
-	const roverData = await fetchJson(`${API_BASE_URL}/rovers`, apiKey);
-	const roverEntries = getRoverEntries(roverData);
 	const rovers: MarsRover[] = [];
-
-	for (const roverId of ROVER_IDS) {
-		const metadata = getLatestSol(
-			roverEntries.find((entry) => isRecord(entry) && entry.id === roverId),
-			roverId,
-		);
-		const photos = await getPhotosForRover(roverId, metadata.maxSol, apiKey);
+	for (const rover of ROVERS) {
 		rovers.push({
-			id: roverId,
-			name: metadata.name,
-			latestSol: metadata.maxSol,
-			earthDate: metadata.maxDate,
-			photos,
+			id: rover.id,
+			name: rover.name,
+			photos: await getSearchResults(rover),
 		});
 	}
 
@@ -229,11 +212,11 @@ async function main() {
 		`${JSON.stringify({ generatedAt: new Date().toISOString(), rovers }, null, 2)}\n`,
 	);
 	console.log(
-		`Generated Mars gallery data: ${rovers.map((rover) => `${rover.name} Sol ${rover.latestSol} (${rover.photos.length} photos)`).join(", ")}`,
+		`Generated NASA Mars image search data: ${rovers.map((rover) => `${rover.name} (${rover.photos.length} images)`).join(", ")}`,
 	);
 }
 
 main().catch((error: unknown) => {
-	console.error("[Mars gallery] Failed to fetch latest rover images:", error);
+	console.error("[Mars gallery] Failed to fetch NASA rover imagery:", error);
 	process.exitCode = 1;
 });

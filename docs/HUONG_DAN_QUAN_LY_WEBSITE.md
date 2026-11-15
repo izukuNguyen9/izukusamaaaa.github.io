@@ -170,22 +170,13 @@ Mục **Earth** gọi API công khai của [NASA EPIC](https://epic.gsfc.nasa.go
 
 Không cần API key. Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện ở `src/pages/earth.astro` và `src/components/pages/EarthGallery.svelte`.
 
-### Mục Mars (ảnh rover Curiosity và Perseverance)
+### Mục Mars (ảnh tư liệu NASA về Curiosity và Perseverance)
 
-Mục **Mars** hiển thị ảnh từ tất cả camera của hai rover, ở sol mới nhất có ảnh theo Mars Vista API. Dùng danh sách chọn **Rover** và **Camera** để lọc; chạm ảnh để mở bản lớn. Ảnh được làm mới tự động mỗi ngày bởi GitHub Actions.
+Mục **Mars** dùng [NASA Images API](https://images.nasa.gov/) để tìm ảnh trong danh mục NASA có nhắc đến rover **Curiosity** và **Perseverance**. Chọn rover để xem kết quả; chạm ảnh để mở bản lớn. GitHub Actions làm mới dữ liệu mỗi ngày, không cần API key.
 
-Vì GitHub Pages là website tĩnh, không gọi Mars Vista API trực tiếp từ trình duyệt. GitHub Actions dùng API key để lấy ảnh trong lúc build; key không được đưa vào mã trang hay dữ liệu ảnh công khai.
+**Lưu ý:** đây là ảnh tư liệu được NASA lập danh mục, không phải luồng trực tiếp từ camera rover và không đảm bảo là ảnh vừa chụp theo sol mới nhất. Ngày hiển thị là ngày ảnh được ghi trong danh mục NASA. API Mars Rover Photos cũ trong một số hướng dẫn đã nghỉ hoạt động; không tạo hoặc lưu Mars Vista key cho trang này nữa. Nếu secret `MARS_VISTA_API_KEY` không dùng ở nơi khác, có thể xóa trong **Settings → Secrets and variables → Actions**.
 
-#### Cài API key an toàn bằng điện thoại
-
-1. Nếu API key từng được gửi trong chat, ảnh chụp màn hình hoặc nơi công khai, hãy thu hồi key đó trong tài khoản Mars Vista và tạo key mới. Không dùng lại key đã lộ.
-2. Mở repo GitHub, vào **Settings**. Nếu không thấy, mở menu `...` hoặc bật chế độ **Trang web cho máy tính** trên trình duyệt điện thoại.
-3. Trong **Security**, mở **Secrets and variables → Actions**.
-4. Chọn **New repository secret**.
-5. Đặt **Name** chính xác là `MARS_VISTA_API_KEY`, dán key mới vào **Secret**, rồi chọn **Add secret**. Không đặt key trong tệp cấu hình, bài viết, commit hoặc tin nhắn.
-6. Mở tab **Actions**, chọn workflow **Deploy to GitHub Pages** và chạy **Run workflow**. Khi build hoàn tất, mở mục **Mars** trên website. Sau đó ảnh được cập nhật theo lịch hằng ngày.
-
-Nếu workflow báo thiếu key hoặc lỗi API, kiểm tra tên secret chính xác là `MARS_VISTA_API_KEY`; nếu key đã từng bị lộ, thu hồi và thay key rồi cập nhật lại secret. Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
+Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 
 ## 7. Thay đổi nhạc
 

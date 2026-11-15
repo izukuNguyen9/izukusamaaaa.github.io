@@ -1,0 +1,341 @@
+{
+  "generatedAt": "2026-11-15T04:10:02.735Z",
+  "rovers": [
+    {
+      "id": "curiosity",
+      "name": "Curiosity",
+      "photos": [
+        {
+          "id": "PIA26727",
+          "nasaId": "PIA26727",
+          "title": "Curiosity Takes a Close Look at Martian Sulfur Crystals",
+          "catalogDate": "2026-06-30T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26727/PIA26727~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26727/PIA26727~orig.jpg",
+          "description": "These sulfur crystals were found inside a rock after NASA’s Curiosity Mars rover happened to drive over it and crush it on May 30, 2024, the 4,200th Martian day, or sol, of the mission. The image was captured by Curiosity’s Mars Hand Lens Imager (MAHLI), a camera on the end of its robotic arm, on June 4, 2024, Sol 4,205.  This rock was nicknamed “Convict Lake” after a location in California’s Sierra Nevada. Curiosity’s Alpha Particle X-Ray Spectrometer (APXS) found that the crystalline material is elemental sulfur.  Curiosity was built by NASA’s Jet Propulsion Laboratory, which is managed by Caltech in Pasadena, California. JPL leads the mission on behalf of NASA’s Science Mission Directorate in Washington. MAHLI was built by Malin Space Science Systems in San Diego.  For more about Curiosity, visit: https://science.nasa.gov/mission/msl-curiosity."
+        },
+        {
+          "id": "PIA26695",
+          "nasaId": "PIA26695",
+          "title": "Curiosity Lights Up ‘Nevado Sajama’ at Night",
+          "catalogDate": "2026-01-27T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26695/PIA26695~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26695/PIA26695~orig.png",
+          "description": "NASA’s Curiosity Mars rover used LED lights on the end of its robotic arm to create this rare nighttime view of the Red Planet’s surface on Dec. 6, 2025, the 4,740th Martian day, or sol, of the rover’s mission.   The LED lights are part of the Mars Hand Lens Imager, or MAHLI, a camera on the end of Curiosity’s robotic arm. The image was captured by the Mast Camera, or Mastcam, on the rover’s mast, or “head.” On occasion, scientists have used MAHLI’s LED lights to illuminate areas deep in shadow during the day, such as the insides of drill holes and the inlet tubes leading to instruments in the rover’s belly. Much earlier in the mission, the Curiosity team used these LEDs at night to look for layering or other features in drill hole walls that would help them understand a rock’s composition. Since the mission changed its drilling method, the drill holes have come out too rough and dusty to see any such details.   After drilling a rock target nicknamed “Nevado Sajama” on Nov. 13, 2025 (Sol 4,718), the team noticed the drill hole walls were smooth enough to try looking for layers and decided to try illuminating the drill hole at night. This drill hole was made during Curiosity’s exploration of a region full of geologic formations called boxwork, which crisscross the surface for miles and look like giant spiderwebs when viewed from space.  Curiosity was built by NASA’s Jet Propulsion Laboratory, which is managed by Caltech in Pasadena, California. JPL leads the mission on behalf of NASA’s Science Mission Directorate in Washington as part of NASA’s Mars Exploration Program portfolio. Malin Space Science Systems in San Diego built and operates both Mastcam and MAHLI.  To learn more about Curiosity, visit:   science.nasa.gov/mission/msl-curiosity "
+        },
+        {
+          "id": "PIA26680",
+          "nasaId": "PIA26680",
+          "title": "Curiosity Sends a Postcard From Mount Sharp’s Boxwork Region",
+          "catalogDate": "2025-12-30T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26680/PIA26680~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26680/PIA26680~orig.jpg",
+          "description": "NASA’s Curiosity Mars rover used its black-and-white navigation cameras to capture panoramas at two times of day on Nov. 18, 2025, spanning periods that occurred on both the 4,722nd and 4,723rd Martian days, or sols, of the mission. The panoramas were captured at 4:15 p.m. on Sol 4,722 and 8:20 a.m. on Sol 4,723 (both at local Mars time), then merged together. Color was later added for an artistic interpretation of the scene with blue representing the morning panorama and yellow representing the afternoon one.   The resulting “postcard” is similar to ones the rover took in June 2023 and November 2021. Adding color to these kinds of merged images helps different details stand out in the landscape.  The scene captured in this postcard shows Curiosity at the top of a ridge referred to as a boxwork formation. These formations crisscross a region in the lower foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain which Curiosity has been climbing since 2014.  Curiosity used the drill on the end of its robotic arm to collect a rock sample from the top of this ridge at a spot nicknamed “Nevado Sajama.” This view looks north across the boxwork formations and downslope of Mount Sharp toward the floor of Gale Crater, a vast impact crater the mountain is located within. The crater’s rim can be seen far in the distant horizon, approximately 25 miles (40 kilometers) away. Wheel tracks are visible in the hollow behind Curiosity, where a sample was also drilled at a spot nicknamed “Valle de la Luna.”  The boxwork formations are believed to have been created billions of years ago when water on ancient Mars dripped through rock cracks, carrying minerals with them. The minerals hardened after the water dried up; eons later, wind sandblasted the softer rock around these hardened minerals, exposing the ridges Curiosity is exploring today. These ridges may reveal more about the planet’s watery past.  Curiosity was built by NASA’s Jet Propulsion Laboratory, which is managed by Caltech in Pasadena, California. JPL leads the mission on behalf of NASA’s Science Mission Directorate in Washington as part of NASA’s Mars Exploration Program portfolio.  For more about Curiosity, visit:  science.nasa.gov/mission/msl-curiosity "
+        },
+        {
+          "id": "PIA26673",
+          "nasaId": "PIA26673",
+          "title": "Curiosity Works Its Robotic Arm During Sunset",
+          "catalogDate": "2025-09-22T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26673/PIA26673~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26673/PIA26673~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this view of its robotic arm during sunset on Sept. 16, 2025, the 4,661st Martian day, or sol, of the mission. This series of six images shows the rover's 7-foot-long (2.5-meter-long) arm setting its turret, a rotating platform for science instruments, onto rock targets nicknamed \"Turbio\" and \"Rio Aguas Blancas.\"  The front hazard cameras, located on the front of the rover's chassis, took the images between 3:55 and 4:51 p.m. local Mars time, showcasing the lengthening shadows at the end of the day. The sun finally set at 4:54 p.m. local Mars time.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26673"
+        },
+        {
+          "id": "PIA26638",
+          "nasaId": "PIA26638",
+          "title": "Curiosity's ChemCam Views Summit and Cliffs Beyond Gale Crater",
+          "catalogDate": "2025-09-17T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26638/PIA26638~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26638/PIA26638~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this view of a mountain nearly 57 miles (91 kilometers) away and outside of Gale Crater, where Curiosity landed in 2012. The rover is currently in the foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain within the crater.  Estimated to be 8,202 feet (2,500 meters) tall, the mountain's summit just peeks over the crater rim in the panorama. It has never been viewed with this much detail. Toward the lower left, dark rocky outcrops are visible.  Curiosity captured the view with its black-and-white Remote Micro Imager, or RMI. Part of the rover's ChemCam instrument, RMI can be used like a small telescope to see distant features, creating a circular \"spyglass\" view. Ten RMI images taken on Aug. 28, 2025 (the 4,643rd Martian day, or sol of the mission) were stitched together to create the mosaic.  https://photojournal.jpl.nasa.gov/catalog/PIA26638"
+        },
+        {
+          "id": "PIA26671",
+          "nasaId": "PIA26671",
+          "title": "Curiosity Views Gale Crater's Rim, Homing in on Ancient River Channel",
+          "catalogDate": "2025-09-17T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26671/PIA26671~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26671/PIA26671~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this panorama under exceptionally clear conditions of Gale Crater's northern rim on Aug. 25, 2025, the 4,640th Martian day, or sol, of the mission. Dust in the air is at its lowest during Martian winter, providing Curiosity its best views all the way across the yawning crater floor from the rover's perch in the foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain roughly 22 miles (35 kilometers) from the crater rim.  The panorama was stitched together on Earth from 44 images captured by Curiosity's Mastcam instrument. The color in these images has been adjusted to match the lighting conditions as the human eye would see them on Earth.  https://photojournal.jpl.nasa.gov/catalog/PIA26671"
+        },
+        {
+          "id": "PIA26637",
+          "nasaId": "PIA26637",
+          "title": "Curiosity's ChemCam Views Ancient River Channel Peace Vallis",
+          "catalogDate": "2025-09-17T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26637/PIA26637~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26637/PIA26637~orig.jpg",
+          "description": "NASA's Curiosity Mars rover used its ChemCam instrument to capture Peace Vallis, an ancient river channel descending Gale Crater's rim, on Sept. 1, 2025 (the 4,647th Martian day, or sol, of the mission). The channel was about 19 miles (30 kilometers) from Curiosity as it explores the foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain.  The dark features scattered just left of center within the channel are rocky outcrops. While Curiosity has taken pictures of Peace Vallis in the past, this is the first time details like these have been seen within it. Water and sediment are believed to have flowed down Peace Vallis into Gale Crater billions of years ago, creating a fan of sediment across the crater floor. Studying the crater's watery past is part of Curiosity's overall mission to understand where and how well the ancient Martian landscape could have supported microbial life, if any ever formed there.  ChemCam is equipped with the Remote Micro Imager, or RMI, a black-and-white camera that can be used like a small telescope to see distant features, creating a circular \"spyglass\" image. Ten RMI images were stitched together on Earth into a mosaic to create the panorama seen here.  https://photojournal.jpl.nasa.gov/catalog/PIA26637"
+        },
+        {
+          "id": "PIA26632",
+          "nasaId": "PIA26632",
+          "title": "Curiosity Captures Mars Landscape While Talking to an Orbiter",
+          "catalogDate": "2025-08-04T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26632/PIA26632~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26632/PIA26632~orig.jpg",
+          "description": "NASA's Curiosity Mars rover demonstrated a new multitasking capability when capturing this view: It snapped the 15 images that make up the mosaic while simultaneously communicating with an orbiter. The images were taken by the right navigation camera on Curiosity's mast July 26, 2025, the 4,611th sol, or day, of the mission. The rover's tracks cross through a region filled with boxwork formations – hardened ridges created by mineral deposits from subsurface water billions of years ago. This boxwork region is in the lower foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain in the center of Gale Crater.  Being able to combine tasks shortens the rover's daily plan, requiring less power from Curiosity's nuclear power source, called a multi-mission radioisotope thermonuclear generator (MMRTG), which is lined with rows of white fins at the back of the rover. NASA's Perseverance rover is also equipped with an MMRTG; the generator uses the heat from decaying plutonium pellets to charge batteries on the rovers.  The can-like cylinder to the left of the MMRTG is Curiosity's ultrahigh frequency (UHF) antenna, which communicates with spacecraft in orbit around Mars. To capture a mosaic like this, the rover would normally require nine minutes of awake time devoted solely to imaging. However, while snapping the images for this mosaic, Curiosity was also sending data to ESA's (the European Space Agency's) Trace Gas Orbiter, essentially saving several minutes of battery time.  After being sent to Earth, the images were stitched together and the seams between them smoothed out before the mosaic was processed to enhance details.  https://photojournal.jpl.nasa.gov/catalog/PIA26632"
+        },
+        {
+          "id": "PIA26634",
+          "nasaId": "PIA26634",
+          "title": "Curiosity's ChemCam Views a Rock Shaped Like Coral",
+          "catalogDate": "2025-08-04T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26634/PIA26634~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26634/PIA26634~orig.jpg",
+          "description": "NASA's Curiosity Mars rover used the Remote Micro Imager, part of its ChemCam instrument, to view this wind-eroded rock shaped like a piece of coral on July 24, 2025, the 4,609th Martian day, or sol, of the mission. Curiosity has found many rocks like this one, which were formed by ancient water combined with billions of years of sandblasting by the wind.  This particular rock is similar to one seen by Curiosity's Mars Hand Lens Imager around the same time.  Curiosity has found many small features like this one, which formed billions of years ago when liquid water still existed on Mars. Water carried dissolved minerals into rock cracks and later dried, leaving the hardened minerals behind. Eons of sandblasting by the wind wore away the surrounding rock, producing the unique shapes seen today.  This common process, seen extensively on Earth, has produced fantastic shapes on Mars, including a flower-shaped rock.  https://photojournal.jpl.nasa.gov/catalog/PIA26634"
+        },
+        {
+          "id": "PIA26633",
+          "nasaId": "PIA26633",
+          "title": "Curiosity Views a Martian Rock Shaped Like Coral",
+          "catalogDate": "2025-08-04T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26633/PIA26633~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26633/PIA26633~orig.jpg",
+          "description": "NASA's Curiosity Mars rover used its Mars Hand Lens Imager (MAHLI), a camera on the end of its robotic arm, to view this wind-eroded rock shaped like a piece of coral on July 24, 2025, the 4,608th Martian day, or sol, of the mission. Nicknamed \"Paposo\" by the rover's science team, the rock was about 2 inches (5 centimeters) from the MAHLI camera when this was taken.  Curiosity has found many small features like this one, which formed billions of years ago when liquid water still existed on Mars. Water carried dissolved minerals into rock cracks and later dried, leaving the hardened minerals behind. Eons of sandblasting by the wind wore away the surrounding rock, producing unique shapes.  This common process is seen extensively on Earth and has produced fantastic shapes on Mars, as well, including a flower-shaped rock.  https://photojournal.jpl.nasa.gov/catalog/PIA26633"
+        },
+        {
+          "id": "PIA26559",
+          "nasaId": "PIA26559",
+          "title": "Curiosity's First 360-Degree View of Boxwork Patterns",
+          "catalogDate": "2025-06-23T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26559/PIA26559~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26559/PIA26559~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this 360-degree view after arriving at a region crisscrossed by hardened low ridges called boxwork patterns. The panorama is stitched together from 291 individual images the rover's Mast Camera, or Mastcam, captured between May 15 and May 18, 2025 (the 4,451st Martian day, or sol, of the mission and the 4,454th sol). The color in these images has been adjusted to match the lighting conditions as the human eye would see them on Earth.  When viewed from space, the boxwork patterns look a bit like spiderwebs. They have fascinated scientists since before Curiosity's 2012 landing on the Red Planet and are believed to have formed from groundwater trickling through rock cracks billions of years ago. Minerals left behind by the water hardened like cement within the rock; after eons of sandblasting by wind, the rock was carved away, revealing networks of resistant ridges within.  Curiosity's tracks can be seen in the middle of the image. In the distance to the right is a butte nicknamed \"Texoli.\" Far in the distance at the top center of the image is the rim of Gale Crater. Since 2014, Curiosity has been exploring the foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain within the crater.  https://photojournal.jpl.nasa.gov/catalog/PIA26559"
+        },
+        {
+          "id": "PIA26560",
+          "nasaId": "PIA26560",
+          "title": "Curiosity Views Boxwork Patterns at a Distance",
+          "catalogDate": "2025-06-23T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26560/PIA26560~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26560/PIA26560~orig.jpg",
+          "description": "NASA's Curiosity Mars rover viewed this expanse while looking out across a region filled with low ridges known as boxwork patterns. The panorama is stitched together from 23 individual images the rover's Mast Camera, or Mastcam, captured on May 22, 2025 (the 4,536th day, or sol, of the mission). The color in these images has been adjusted to match the lighting conditions as the human eye would see them on Earth.  When viewed from space, the boxwork patterns look a bit like spiderwebs. They have fascinated scientists since before Curiosity's 2012 landing on the Red Planet and are believed to have formed from groundwater trickling through rock cracks billions of years ago. Minerals left behind by the water hardened like cement within the rock; after eons of sandblasting by wind, the rock was carved away, revealing networks of resistant ridges within.  Curiosity's images provide the first up-close views of the boxwork region, which is located in the foothills of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain the rover has been ascending since 2014.  Video available at https://photojournal.jpl.nasa.gov/catalog/PIA26560"
+        },
+        {
+          "id": "PIA26558",
+          "nasaId": "PIA26558",
+          "title": "Curiosity Views a Fractured Boxwork Pattern Up Close",
+          "catalogDate": "2025-06-23T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26558/PIA26558~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26558/PIA26558~orig.jpg",
+          "description": "The curblike ridge in this view is part of a series of crisscrossing features that form what's called a boxwork pattern. NASA's Curiosity Mars rover captured the image with its Mast Camera, or Mastcam, on May 16, 2025, the 4,541st Martian day, or sol, of the mission. This panorama was stitched together from 15 individual images. The color in these images has been adjusted to match the lighting conditions as the human eye would see them on Earth.  When viewed from space, the boxwork patterns look a bit like spiderwebs. They have fascinated scientists since before Curiosity's 2012 landing on the Red Planet and are believed to have formed from groundwater trickling through rock cracks billions of years ago. Minerals left behind by the water hardened like cement within the rock; after eons of sandblasting by wind, the rock was carved away, revealing networks of resistant ridges within.  https://photojournal.jpl.nasa.gov/catalog/PIA26558"
+        },
+        {
+          "id": "PIA26553",
+          "nasaId": "PIA26553",
+          "title": "HiRISE Views Curiosity During a Drive",
+          "catalogDate": "2025-04-24T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26553/PIA26553~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26553/PIA26553~orig.jpg",
+          "description": "NASA's Curiosity Mars rover appears as a dark speck in this view captured on Feb. 28, 2025, by the High-Resolution Imaging Science Experiment (HiRISE) camera aboard NASA's Mars Reconnaissance Orbiter. At the time this image was taken, Curiosity was driving. It's likely the first time HiRISE has captured the rover while it was in motion. Trailing Curiosity are the rover's tracks, which can linger on the Martian surface for months before being erased by the wind.  The tracks are evidence of multiple days of driving as Curiosity made its way to a region full of potential boxwork formations, believed to be the result of ancient groundwater in this region of Mount Sharp, a 3-mile-tall (5-kilometer-tall) mountain Curiosity has been ascending since 2014.  When HiRISE takes an image, the majority of the scene is in black-and-white, with a strip of color down the middle. While HiRISE has captured Curiosity in color before, this time the rover happened to fall within the black-and-white part of the image.  https://photojournal.jpl.nasa.gov/catalog/PIA26553"
+        },
+        {
+          "id": "PIA26551",
+          "nasaId": "PIA26551",
+          "title": "Curiosity Looks Downslope From the Sulfate Unit",
+          "catalogDate": "2025-04-24T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26551/PIA26551~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26551/PIA26551~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this view looking back down at the floor of Gale Crater from its location on Mount Sharp on Feb. 7, 2025, the 4,447th Martian day, or sol, of the mission. Curiosity was continuing its climb through a region of the mountain called the sulfate-bearing unit.  Mount Sharp is a 3-mile-tall (5-kilometer-tall) mountain made up of a number of layers, all of which formed in different eras of Martian history. By studying each layer, the rover's team can learn more about how the Martian environment changed over time from a warmer, wetter, and more Earthlike world to the freezing desert it is today.  The mountain is inside of Gale Crater, formed by an ancient asteroid impact. What appears to be a mountain range in the distance of this scene is in fact the crater's rim.  The color in these images has been adjusted to match the lighting conditions as the human eye would see them on Earth.  https://photojournal.jpl.nasa.gov/catalog/PIA26551"
+        },
+        {
+          "id": "PIA26552",
+          "nasaId": "PIA26552",
+          "title": "Curiosity on the Road to Boxwork Formations",
+          "catalogDate": "2025-04-24T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26552/PIA26552~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26552/PIA26552~orig.jpg",
+          "description": "NASA's Curiosity Mars rover used its Mast Camera, or Mastcam, to capture this panorama in morning light on March 9, 2025, the 4,476th Martian day, or sol, of the mission. Steep hills on the left side of the panorama enclose wind-carved valleys on Mount Sharp, the mountain that Curiosity has been climbing for over a decade. Broken-up, rounded rocks throughout the foreground are part of the mountain's sulfate-bearing unit.  The butte in the distance at right is nicknamed \"Gould Mesa.\" A band of cliffs and dark ridges near the top of the butte may be the first glimpses of boxwork formations, a kind of feature created by groundwater flowing through large bedrock fractures in the ancient past. Assuming that is how they formed, these could represent the last gasps of water found on this region of Mars before the planet dried out completely.  Before now, these features had only been viewed from orbiting spacecraft, to which they appeared as spiderweb-like fractures. This pattern of fractures stretches as long as 6 to 12 miles (10 to 20 kilometers) across the side of Mount Sharp. The rover's team expects to study these formations up close throughout the rest of 2025.  The color in this image has been adjusted to match lighting conditions as the human eye would see them on Earth.  https://photojournal.jpl.nasa.gov/catalog/PIA26552 "
+        },
+        {
+          "id": "PIA26554",
+          "nasaId": "PIA26554",
+          "title": "Curiosity Surveys the 'Ubajara' Sampling Site on Mars",
+          "catalogDate": "2025-04-17T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26554/PIA26554~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26554/PIA26554~orig.jpg",
+          "description": "NASA's Curiosity Mars rover captured this 360-degree panorama at a site nicknamed \"Ubajara\" on April 30, 2023, the 3,815th Martian day, or sol, of the mission. Taken by the rover's Mastcam, this panorama was stitched together from 141 images after they were sent to Earth. Dark rover tracks recede into the distance in the center of the scene.  Curiosity used the drill on the end of its robotic arm to take a sample from Ubajara, then dropped the pulverized rock into instruments within the rover's body. One of those instruments, called CheMin (Chemistry & Mineralogy), used X-ray diffraction to discover the presence of an iron carbonate mineral called siderite in samples from this site and two others: one above and one below Ubajara in a region enriched with salty minerals called sulfates.  The discovery of siderite may help solve one of Mars' mysteries: There is strong evidence that liquid water coursed over the planet's surface billions of years ago, suggesting Mars had a thick, carbon-rich atmosphere rather than the wispy one it has today (a thicker carbon dioxide atmosphere is required to provide enough pressure and warmth for water to remain liquid on a planet's surface; otherwise, it rapidly vaporizes or freezes – which is the case on Mars today).  That carbon dioxide and water should have reacted with Martian rocks to create carbonate minerals. However, when scientists study the planet with satellites that ample carbonate hasn't been apparent – even at Curiosity's site.  It's possible that other minerals may be masking carbonate from satellite near-infrared analysis, particularly in sulfate-rich areas. If other such layers across Mars also contain hidden carbonates, the amount of stored carbon dioxide would be part of that needed in the ancient atmosphere to create conditions warm enough to support liquid water. The rest could be hidden in other deposits or have been lost to space over time.  https://photojournal.jpl.nasa.gov/catalog/PIA26554"
+        },
+        {
+          "id": "PIA26519",
+          "nasaId": "PIA26519",
+          "title": "Curiosity Views Twilight Clouds",
+          "catalogDate": "2025-02-11T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26519/PIA26519~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26519/PIA26519~orig.jpg",
+          "description": "NASA's Curiosity Mars rover used its left Mast Camera, or Mastcam, to capture these drifting noctilucent, or twilight, clouds on Jan. 17, 2025, the 4,426th Martian day, or sol, of the mission. The left Mastcam has a stuck color filter wheel, which is why part of the imagery appears cut off in three corners.  The original recording taken by Curiosity was 16 minutes; this video has been speeded up by about 480 times (and it loops four times).  The clouds at the top of the frame, including the falling white plumes, are made of carbon dioxide ice. The plumes are an estimated 37 to 50 miles (60 to 80 kilometers) above the Martian surface; they could fall as low as 31 miles (50 kilometers) above the surface before they would evaporate due to rising temperatures.  In the lower half of the frame at the beginning of the video, a different set of very faint clouds is visible. These are water-ice clouds are hovering at roughly 31 miles (50 kilometers) in altitude.  The brightness has been stretched to make certain colors more visible in this enhanced-color imagery.  This is the fourth Mars year that twilight clouds have been observed by Curiosity; previous observations were made in 2019, 2021, and 2023.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26519"
+        }
+      ]
+    },
+    {
+      "id": "perseverance",
+      "name": "Perseverance",
+      "photos": [
+        {
+          "id": "PIA26639",
+          "nasaId": "PIA26639",
+          "title": "Perseverance's SHERLOC Finds Organic Molecules in 'Bright Angel'",
+          "catalogDate": "2025-09-10T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26639/PIA26639~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26639/PIA26639~orig.jpg",
+          "description": "This graph displays data collected by NASA's Perseverance Mars rover from targets in a rock formation nicknamed \"Bright Angel.\" Scientists later determined one of those targets, a rock nicknamed \"Cheyava Falls\" (second line from the top), contained a potential biosignature. A potential biosignature is a substance or structure that might have a biological origin but requires more data or further study before a conclusion can be reached about the absence or presence of life.  The graph includes \"G-bands\" – a type of signal in Raman spectroscopy – indicating the presence of organic molecules, which can be created by both geological as well as biological sources. (\"Bknd\" is shorthand for \"background.\") The data was collected by an instrument on the end of Perseverance's robotic arm called SHERLOC (Scanning Habitable Environments with Raman & Luminescence for Organics & Chemicals).  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover is characterizing the planet's geology and past climate, to help pave the way for human exploration of the Red Planet, and is the first mission to collect and cache Martian rock and regolith.  The Mars 2020 Perseverance mission is part of NASA's Mars Exploration Program (MEP) portfolio and the agency's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26639"
+        },
+        {
+          "id": "PIA26640",
+          "nasaId": "PIA26640",
+          "title": "Perseverance's PIXL Finds Vivianite, Greigite in 'Cheyava Falls' Sample",
+          "catalogDate": "2025-09-10T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26640/PIA26640~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26640/PIA26640~orig.jpg",
+          "description": "NASA's Perseverance Mars rover generated this mineral map showing the presence of two minerals – vivianite (purple and pink) and greigite (dull yellow and green) – on the surface of a rock nicknamed \"Cheyava Falls.\" The data helped scientists determine the rock contained a potential biosignature, which is a substance or structure that might have a biological origin but requires more data or further study before a conclusion can be reached about the absence or presence of life.  Perseverance's PIXL (Planetary Instrument for X-ray Lithochemistry) and SHERLOC (Scanning Habitable Environments with Raman & Luminescence for Organics & Chemicals)instruments found a distinct pattern of minerals arranged into reaction fronts (points of contact where chemical and physical reactions occur) that the team called \"leopard spots.\"  The leopard spots carried the signature of vivianite (hydrated iron phosphate) and greigite (iron sulfide). Vivianite appears within black spots mission scientists refer to as \"poppy seeds\" and in the dark rims of the larger \"leopard spots.\" Greigite is seen within the interiors of the leopard spots, which could have been left behind by microbial life if it had used the raw ingredients – the organic carbon, sulfur, and phosphorus – in the rock as an energy source. Vivianite is frequently found on Earth in sediments and peat bogs and around decaying organic matter. Similarly, certain forms of microbial life on Earth can produce greigite.  The combination of these minerals, which appear to have formed by electron-transfer reactions between the sediment and organic matter, is a potential \"fingerprint\" for microbial life, which would use these reactions to produce energy for growth. The minerals can also be generated abiotically, or without the presence of life.  https://photojournal.jpl.nasa.gov/catalog/PIA26640"
+        },
+        {
+          "id": "PIA26644",
+          "nasaId": "PIA26644",
+          "title": "NASA's Perseverance Rover at 'Falbreen'",
+          "catalogDate": "2025-08-06T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26644/PIA26644~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26644/PIA26644~orig.jpg",
+          "description": "NASA's Perseverance Mars rover used its Mastcam-Z camera to capture this 360-degree panorama of an area nicknamed \"Falbreen\" on May 26, 2025, the 1,516th Martian day, or sol, of the mission. Ninety-six separate images were stitched together to make the panorama. This enhanced-color version, which had its color bands processed to improve visual contrast and accentuate color differences, shows the Martian sky to be remarkably clear and deceptively blue.  The bright white circle just left of center and near the bottom of the image is an abrasion patch. This is the 43rd rock Perseverance has abraded since it landed on Mars in February 2021.      Rover tracks can be seen toward the mosaic's right edge. About 300 feet (90 meters) away, they veer to the left, disappearing from sight at a previous geologic stop the science team calls \"Kenmore.\"      The black \"float rock\" that appears to be resting on top of a sand ripple is more than likely sitting directly on top of the rocky surface: The dust that created the sand ripple simply built up around it. The rock is about 14 feet (4.4 meters) from the rover.  https://photojournal.jpl.nasa.gov/catalog/PIA26644"
+        },
+        {
+          "id": "PIA26643",
+          "nasaId": "PIA26643",
+          "title": "The 33 Sample Tubes Collected by Perseverance",
+          "catalogDate": "2025-07-24T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26643/PIA26643~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26643/PIA26643~orig.jpg",
+          "description": "Shown here is an annotated composite image of the interiors of the 33 tubes NASA's Perseverance Mars rover has used to collect samples as of July 24, 2025, the 1,574th Martian day (or sol) of the mission. At this point, Perseverance has collected 27 rock cores, two samples of regolith (broken Mars rock and dust), and one atmospheric sample. The composite also includes images of the three witness tube interiors.  Atop each image in white text is the name given to the sample by the rover science team.  Ten of the samples depicted here – including one atmospheric sample and one witness tube – were deposited in January 2023 at the rover's sample depot at a location dubbed \"Three Forks\" within Jezero Crater. The other 23 samples collected thus far remain aboard the rover. Visit this page for details on each sample.  The images of the sample tube interiors were collected by the rover's Sampling and Caching System Camera (known as CacheCam).  https://photojournal.jpl.nasa.gov/catalog/PIA26643"
+        },
+        {
+          "id": "PIA26641",
+          "nasaId": "PIA26641",
+          "title": "A Martian Tribute on Perseverance",
+          "catalogDate": "2025-07-02T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26641/PIA26641~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26641/PIA26641~orig.jpg",
+          "description": "This close-up view of a plate on NASA's Perseverance rover commemorating the impact of the COVID-19 pandemic and paying tribute to the perseverance of health care workers around the world was acquired on June 28, 2025 (the 1,548th day, or sol, of its mission to Mars).  Located on the left side of the rover chassis, the 3-by-5-inch (8-by-13-centimeter) aluminum plaque was attached in May 2020 during final assembly at NASA's Kennedy Space Center in Florida.  https://photojournal.jpl.nasa.gov/catalog/PIA26641"
+        },
+        {
+          "id": "PIA26577",
+          "nasaId": "PIA26577",
+          "title": "Perseverance Rover's Abrading Bit",
+          "catalogDate": "2025-06-25T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26577/PIA26577~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26577/PIA26577~orig.jpg",
+          "description": "This image shows the abrading bit used by NASA's Perseverance to get beneath the surface of Mars rocks. It was acquired on Aug. 2, 2021, the 160th Martian day, or sol, of the mission, by the rover's Mastcam-Z imager.  Mars rocks can be weathered and covered in dust, obscuring important details about their composition and history. The rover's abrader is the golden-colored disk with the three parallel lines of different lengths, arranged asymmetrically, in the center of the image. When the rover's drill spins and hammers with an abrading bit, that tooth pattern creates crisscrossing, well-distributed impacts in the rock. This chips away the surface and makes a smooth, flat patch of fresh rock about 2 inches (5 centimeters) in diameter.  https://photojournal.jpl.nasa.gov/catalog/PIA26577"
+        },
+        {
+          "id": "PIA26575",
+          "nasaId": "PIA26575",
+          "title": "Perseverance Drills a Rock on Jezero Crater Rim",
+          "catalogDate": "2025-06-25T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26575/PIA26575~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26575/PIA26575~orig.jpg",
+          "description": "In this video, the robotic arm on NASA’s Perseverance Mars rover uses its percussive drill on a rocky outcrop near the rim of Jezero Crater that the science team calls “Kenmore” on June 10, 2025, the 1,531st Martian day, or sol, of the mission. Before drilling, the team abraded the rock to determine it was worthy of drilling.  The eight images that make up this GIF were taken approximately one minute apart by one of the rover's front hazard-avoidance cameras.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26575"
+        },
+        {
+          "id": "PIA26576",
+          "nasaId": "PIA26576",
+          "title": "Zooming in on Perseverance Rover's 'Kenmore' Abrasion Patch",
+          "catalogDate": "2025-06-25T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26576/PIA26576~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26576/PIA26576~orig.jpg",
+          "description": "This close-up view of an abrasion made by NASA's Perseverance rover on June 5, 2025 (the 1,526th day, or sol, of its mission to Mars), shows distinctive \"tool marks\" formed as the abrasion bit interacted with the rock. These radiating patterns of lines tend to indicate that the rock is relatively hard. The image was taken from approximately 2.76 inches (7 centimeters) away by the rover's WATSON (Wide Angle Topographic Sensor for Operations and eNgineering) imager.  A maroon-brown rock coating can be seen at the far edges and corners of the image. This coating was chipped off and removed within the area of the patch by the abrasion process.  Most of the distinctive white, millimeter-sized grains set within a finer-grained gray matrix contain feldspar (an aluminum silicate mineral). The irregularly shaped dark patches in the upper right quadrant as well as those within the fracture that cuts through the lower half of the abrasion are composed chiefly of manganese and nickel.  https://photojournal.jpl.nasa.gov/catalog/PIA26576"
+        },
+        {
+          "id": "PIA26573",
+          "nasaId": "PIA26573",
+          "title": "Perseverance Rover Says Goodbye to 'Witch Hazel Hill'",
+          "catalogDate": "2025-05-19T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26573/PIA26573~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26573/PIA26573~orig.jpg",
+          "description": "One of the navigation cameras on NASA's Perseverance captured the rover's tracks coming from an area called \"Witch Hazel Hill,\" on May 13, 2025, the 1,503rd Martian day, or sol, of the mission.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26573"
+        },
+        {
+          "id": "PIA26556",
+          "nasaId": "PIA26556",
+          "title": "Perseverance Views Deimos Before Sunrise",
+          "catalogDate": "2025-05-15T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26556/PIA26556~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26556/PIA26556~orig.jpg",
+          "description": "NASA's Perseverance rover captured this view of Deimos, the smaller of Mars' two moons, shining in the sky at 4:27 a.m. local time on March 1, 2025, the 1,433rd Martian day, or sol, of the mission. In the dark before dawn, the rover's left navigation camera used its maximum long-exposure time of 3.28 seconds for each of 16 individual shots, all of which were combined onboard the camera into a single image that was later sent to Earth. In total, the image represents an exposure time of about 52 seconds.  The low light and long exposures add digital noise, making the image hazy. Many of the white specks seen in the sky are likely noise; some may be cosmic rays. Two of the brighter white specks are Regulus and Algieba, stars that are part of the constellation Leo.  \"Woodstock Crater,\" at center right, is roughly a half-mile (750 meters) away from the rover. At the time, Perseverance was making its way to a location called \"Witch Hazel Hill.\"  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover is characterizing the planet's geology and past climate, to help pave the way for human exploration of the Red Planet, and is the first mission to collect and cache Martian rock and regolith.  NASA's Mars Sample Return Program, in cooperation with ESA (European Space Agency), is designed to send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Mars Exploration Program portfolio and the agency's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26556"
+        },
+        {
+          "id": "PIA26572",
+          "nasaId": "PIA26572",
+          "title": "Dust Devil Whirls by Perseverance Coring Operation",
+          "catalogDate": "2025-05-14T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26572/PIA26572~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26572/PIA26572~orig.jpg",
+          "description": "A dust devil whirled by in the distance as one of the cameras on NASA's Perseverance captured the Mars rover coring a sample near the rim of Jezero Crater on April 29, 2025, the 1,490th Martian day, or sol, of the mission.  The 12 images that make up this animation were taken approximately one minute apart by the rover's front right hazard-avoidance camera. The dust devil is in the upper right of the frame.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26572"
+        },
+        {
+          "id": "PIA26571",
+          "nasaId": "PIA26571",
+          "title": "Perseverance Cores 'Main River'",
+          "catalogDate": "2025-04-10T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26571/PIA26571~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26571/PIA26571~orig.jpg",
+          "description": "The robotic arm on NASA's Perseverance Mars rover used its percussive drill to core and collect the \"Main River\" rock sample on March 10, 2025, the 1,441st Martian day, or sol, of the mission. The time-lapse movie, taken by one of the rover's hazard cameras, is made up of 35 images taken over the course of 34 minutes.  The sample was taken from a rock the rover science team named \"Broom Point\" at a location near the rim of Jezero Crater called \"Witch Hazel Hill.\"  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Mars Exploration Program (MEP) portfolio and the agency's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26571"
+        },
+        {
+          "id": "PIA26520",
+          "nasaId": "PIA26520",
+          "title": "Perseverance and SHERLOC's Calibration Target",
+          "catalogDate": "2025-03-26T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26520/PIA26520~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26520/PIA26520~orig.jpg",
+          "description": "At left is NASA's Perseverance Mars rover. The annotation shows where spacesuit materials can be found attached to a calibration target for SHERLOC (Scanning Habitable Environments with Raman & Luminescence for Organics and Chemicals), one of the rover's instruments. At right is a close-up of the calibration target. Scientists rely on calibration targets to fine-tune instrument settings using materials with known properties. In the case of SHERLOC's calibration target, they are also studying how the five swatches of spacesuit materials arranged along the bottom row degrade in the Martian environment.  Those materials, from left to right: a piece of polycarbonate visor used in spacesuit helmets; Vectran, a cut-resistant material used for the palms of astronaut gloves; a commonly used spacesuit material called Ortho-Fabric; and two kinds of Teflon, which has dust-repelling nonstick properties.  Top row, left to right: two gallium nitride targets that glow different colors when illuminated with SHERLOC's laser; a slice of Martian meteorite named Sayh al Uhaymir 008 (SaH 008); a maze designed to focus SHERLOC's camera; and a diffuse transmission target that measures how SHERLOC's laser scatters light.  This image was taken by the WATSON (Wide Angle Topographic Sensor for Operations and eNgineering) camera, which is part of SHERLOC on the end of Perseverance's robotic arm.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith.  NASA's Mars Sample Return Program, in cooperation with ESA (European Space Agency), is designed to send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Mars Exploration Program (MEP) portfolio and the agency's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26520"
+        },
+        {
+          "id": "PIA26479",
+          "nasaId": "PIA26479",
+          "title": "Perseverance Views Slippery Terrain",
+          "catalogDate": "2024-12-12T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26479/PIA26479~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26479/PIA26479~orig.jpg",
+          "description": "NASA's Perseverance Mars rover used its navigation cameras, or navcams, to capture this scene while driving up to Jezero Crater's rim on Nov. 11, 2024, the 1,326th Martian day, or sol, of the mission. The sandy terrain seen here, along with a 10-degree average slope, meant it was a slippery drive.  Rover tracks trail off behind Perseverance in this image. Far in the distance is the floor of Jezero Crater.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26479"
+        },
+        {
+          "id": "PIA26480",
+          "nasaId": "PIA26480",
+          "title": "Proposed Route of Perseverance's Northern Rim Science Campaign",
+          "catalogDate": "2024-12-12T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26480/PIA26480~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26480/PIA26480~orig.jpg",
+          "description": "This animation shows the position of NASA's Perseverance Mars rover as of Dec. 4, 2024, the 1,347th Martian day, or sol, of the mission, along with the proposed route of the mission's fifth science campaign, dubbed Northern Rim, over the next several years.  This map was made using data from NASA's Mars Reconnaissance Orbiter's High-Resolution Imaging Science Experiment (HiRISE) camera as well as the European Space Agency's (ESA) High Resolution Stereo Camera (HRSC). The University of Arizona, in Tucson, operates HiRISE, which was built by Ball Aerospace & Technologies Corp., in Boulder, Colorado. NASA's Jet Propulsion Laboratory, a division of Caltech in Pasadena, California, manages the Mars Reconnaissance Orbiter Project for NASA's Science Mission Directorate, Washington.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  Animation available at https://photojournal.jpl.nasa.gov/catalog/PIA26480"
+        },
+        {
+          "id": "PIA26474",
+          "nasaId": "PIA26474",
+          "title": "Perseverance Makes Tracks at 'Rio Chiquito'",
+          "catalogDate": "2024-12-12T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26474/PIA26474~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26474/PIA26474~orig.jpg",
+          "description": "NASA's Perseverance Mars rover used its Mastcam-Z camera to capture this 360-degree panorama of an area nicknamed \"Rio Chiquito\" on Nov. 23, 2024, the 1,337th Martian day, or sol, of the mission. The rover's tracks can be seen in the center of the image.  This enhanced-color version of the image is designed to bring out subtle details.  Arizona State University leads the operations of the Mastcam-Z instrument, working in collaboration with Malin Space Science Systems in San Diego, on the design, fabrication, testing, and operation of the cameras, and in collaboration with the Niels Bohr Institute of the University of Copenhagen on the design, fabrication, and testing of the calibration targets.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26474"
+        },
+        {
+          "id": "PIA26512",
+          "nasaId": "PIA26512",
+          "title": "Perseverance Reaches 'Lookout Hill'",
+          "catalogDate": "2024-12-12T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26512/PIA26512~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26512/PIA26512~orig.jpg",
+          "description": "This map shows the location of NASA's Perseverance Mars rover as of Dec. 10, 2024, the 1,354th Martian day, or sol, of the mission, which it reached \"Lookout Hill\" at the top of Jezero Crater's rim after a monthslong climb.  This map was made using data from NASA's Mars Reconnaissance Orbiter's High-Resolution Imaging Science Experiment (HiRISE) camera as well as the European Space Agency's (ESA) High Resolution Stereo Camera (HRSC).  The University of Arizona, in Tucson, operates HiRISE, which was built by Ball Aerospace & Technologies Corp., in Boulder, Colorado, NASA's Jet Propulsion Laboratory manages the Mars Reconnaissance Orbiter Project for NASA's Science Mission Directorate, Washington.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26512"
+        },
+        {
+          "id": "PIA26473",
+          "nasaId": "PIA26473",
+          "title": "Perseverance Views 'Pico Turquino Hills'",
+          "catalogDate": "2024-12-12T00:00:00Z",
+          "previewUrl": "https://images-assets.nasa.gov/image/PIA26473/PIA26473~thumb.jpg",
+          "imageUrl": "https://images-assets.nasa.gov/image/PIA26473/PIA26473~orig.jpg",
+          "description": "NASA's Perseverance Mars Rover used its Mastcam-Z camera system to capture this panorama of a location nicknamed \"Pico Turquino Hills\" on Oct. 22, 2024, the 1,306th Martian day, or sol, of the mission. This area is located on the rim of Jezero Crater. Perseverance landed on the crater's floor on Feb. 18, 2021, and has been steadily working its way up and out of the crater since August 2024.  The rocks in Pico Turquino Hills are among the oldest yet found by Perseverance, forming in a different geologic era than almost everything the rover has seen before. They're likely part of the original surface that existed before Jezero Crater's formation by a massive asteroid about 3.9 billion years ago.  The rocks here are mostly made up of volcanic minerals like olivine, plagioclase, and pyroxene. In the far-right corner of the panorama is a field of white cobbles. This represents the first time Perseverance has encountered pure quartz rock, which may have been created by a hydrothermal system like hot springs – an environment life could have survived in, if any existed on the Red Planet billions of years ago.  Arizona State University leads the operations of the Mastcam-Z instrument, working in collaboration with Malin Space Science Systems in San Diego, on the design, fabrication, testing, and operation of the cameras, and in collaboration with the Niels Bohr Institute of the University of Copenhagen on the design, fabrication, and testing of the calibration targets.  A key objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life. The rover will characterize the planet's geology and past climate, pave the way for human exploration of the Red Planet, and be the first mission to collect and cache Martian rock and regolith (broken rock and dust).  Subsequent NASA missions, in cooperation with ESA (European Space Agency), would send spacecraft to Mars to collect these sealed samples from the surface and return them to Earth for in-depth analysis.  The Mars 2020 Perseverance mission is part of NASA's Moon to Mars exploration approach, which includes Artemis missions to the Moon that will help prepare for human exploration of the Red Planet.  https://photojournal.jpl.nasa.gov/catalog/PIA26473"
+        }
+      ]
+    }
+  ]
+}

@@ -49,10 +49,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Fetch latest Mars rover photos
+      - name: Fetch NASA Mars image search results
         run: pnpm exec tsx scripts/generate-mars-photos.ts
-        env:
-          MARS_VISTA_API_KEY: ${{ secrets.MARS_VISTA_API_KEY }}
       
       - name: Build site
         run: pnpm run build

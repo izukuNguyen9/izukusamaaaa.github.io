@@ -3,21 +3,17 @@ import { onMount } from "svelte";
 
 type MarsPhoto = {
 	id: string;
-	cameraId: string;
-	cameraName: string;
-	sol: number;
-	earthDate: string;
-	takenAt: string;
-	imageUrl: string;
+	nasaId: string;
+	title: string;
+	catalogDate: string;
+	previewUrl: string;
 	fullImageUrl: string;
-	title?: string;
+	description?: string;
 };
 
 type MarsRover = {
 	id: "curiosity" | "perseverance";
 	name: string;
-	latestSol: number;
-	earthDate: string;
 	photos: MarsPhoto[];
 };
 
@@ -34,14 +30,12 @@ function isMarsPhoto(value: unknown): value is MarsPhoto {
 	return (
 		isRecord(value) &&
 		typeof value.id === "string" &&
-		typeof value.cameraId === "string" &&
-		typeof value.cameraName === "string" &&
-		typeof value.sol === "number" &&
-		typeof value.earthDate === "string" &&
-		typeof value.takenAt === "string" &&
-		typeof value.imageUrl === "string" &&
+		typeof value.nasaId === "string" &&
+		typeof value.title === "string" &&
+		typeof value.catalogDate === "string" &&
+		typeof value.previewUrl === "string" &&
 		typeof value.fullImageUrl === "string" &&
-		(value.title === undefined || typeof value.title === "string")
+		(value.description === undefined || typeof value.description === "string")
 	);
 }
 
@@ -50,8 +44,6 @@ function isMarsRover(value: unknown): value is MarsRover {
 		isRecord(value) &&
 		(value.id === "curiosity" || value.id === "perseverance") &&
 		typeof value.name === "string" &&
-		typeof value.latestSol === "number" &&
-		typeof value.earthDate === "string" &&
 		Array.isArray(value.photos) &&
 		value.photos.every(isMarsPhoto)
 	);
@@ -68,22 +60,11 @@ function isMarsGalleryData(value: unknown): value is MarsGalleryData {
 
 let gallery = $state<MarsGalleryData | null>(null);
 let selectedRover = $state<"curiosity" | "perseverance">("perseverance");
-let selectedCamera = $state("all");
 let loading = $state(true);
 let errorMessage = $state("");
 
 const activeRover = $derived(
 	gallery?.rovers.find((rover) => rover.id === selectedRover),
-);
-const cameras = $derived(
-	activeRover
-		? [...new Set(activeRover.photos.map((photo) => photo.cameraId))].sort()
-		: [],
-);
-const visiblePhotos = $derived(
-	activeRover?.photos.filter(
-		(photo) => selectedCamera === "all" || photo.cameraId === selectedCamera,
-	) ?? [],
 );
 
 async function loadPhotos() {
@@ -126,42 +107,25 @@ onMount(() => {
 		class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
 	>
 		<div>
-			<h2 class="text-xl font-bold">Latest images from Mars</h2>
+			<h2 class="text-xl font-bold">Mars images from NASA</h2>
 			<p class="mt-1 text-sm text-50">
-				Photos from the latest available sols of NASA's Curiosity and
-				Perseverance rovers, across all cameras.
+				Recent NASA catalog images mentioning Curiosity and Perseverance.
+				These are not a live feed of the rovers' latest camera captures.
 			</p>
 		</div>
 
-		<div class="flex flex-wrap items-end gap-2">
-			<label class="flex flex-col gap-1 text-sm text-50">
-				<span>Rover</span>
-				<select
-					bind:value={selectedRover}
-					onchange={() => (selectedCamera = "all")}
-					class="rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
-					disabled={!gallery}
-				>
-					{#each gallery?.rovers ?? [] as rover (rover.id)}
-						<option value={rover.id}>{rover.name}</option>
-					{/each}
-				</select>
-			</label>
-
-			<label class="flex flex-col gap-1 text-sm text-50">
-				<span>Camera</span>
-				<select
-					bind:value={selectedCamera}
-					class="rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
-					disabled={cameras.length === 0}
-				>
-					<option value="all">All cameras</option>
-					{#each cameras as camera (camera)}
-						<option value={camera}>{camera}</option>
-					{/each}
-				</select>
-			</label>
-		</div>
+		<label class="flex flex-col gap-1 text-sm text-50">
+			<span>Rover</span>
+			<select
+				bind:value={selectedRover}
+				class="rounded-lg border border-(--line-divider) bg-transparent px-3 py-2 text-(--text-color)"
+				disabled={!gallery}
+			>
+				{#each gallery?.rovers ?? [] as rover (rover.id)}
+					<option value={rover.id}>{rover.name}</option>
+				{/each}
+			</select>
+		</label>
 	</div>
 
 	{#if loading}
@@ -182,8 +146,7 @@ onMount(() => {
 	{:else if activeRover}
 		<div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
 			<p class="text-sm text-50">
-				{activeRover.name} · Sol {activeRover.latestSol} ·
-				{activeRover.earthDate} · {visiblePhotos.length} photos
+				{activeRover.name} · {activeRover.photos.length} catalog images
 			</p>
 			{#if gallery}
 				<p class="text-xs text-50">
@@ -192,13 +155,13 @@ onMount(() => {
 			{/if}
 		</div>
 
-		{#if visiblePhotos.length === 0}
+		{#if activeRover.photos.length === 0}
 			<p class="py-12 text-center text-50" role="status">
-				No photos were found for this camera on the latest sol.
+				No NASA catalog images were found for this rover.
 			</p>
 		{:else}
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-				{#each visiblePhotos as photo (photo.id)}
+				{#each activeRover.photos as photo (photo.id)}
 					<article
 						class="overflow-hidden rounded-xl border border-(--line-divider)"
 					>
@@ -206,23 +169,25 @@ onMount(() => {
 							href={photo.fullImageUrl}
 							target="_blank"
 							rel="noreferrer"
-							aria-label={`Open full-resolution ${photo.cameraName} photo from Sol ${photo.sol}`}
+							aria-label={`Open full-resolution NASA image: ${photo.title}`}
 						>
 							<img
-								src={photo.imageUrl}
-								alt={`${activeRover.name} ${photo.cameraName} photo, Sol ${photo.sol}, ${photo.earthDate}`}
+								src={photo.previewUrl}
+								alt={photo.title}
 								class="aspect-[4/3] w-full bg-black object-contain"
 								loading="lazy"
 								decoding="async"
 							/>
 						</a>
 						<div class="p-4">
-							<p class="font-semibold">{photo.cameraName}</p>
+							<p class="font-semibold">{photo.title}</p>
 							<p class="mt-1 text-sm text-50">
-								Sol {photo.sol} · {photo.earthDate}
+								NASA catalog date: {photo.catalogDate.slice(0, 10)}
 							</p>
-							{#if photo.title}
-								<p class="mt-2 text-sm text-75">{photo.title}</p>
+							{#if photo.description}
+								<p class="mt-2 line-clamp-4 text-sm text-75">
+									{photo.description}
+								</p>
 							{/if}
 						</div>
 					</article>
@@ -233,7 +198,7 @@ onMount(() => {
 </section>
 
 <p class="text-center text-xs text-50">
-	Imagery courtesy of
+	Search results and imagery courtesy of
 	<a
 		class="underline hover:text-(--primary)"
 		href="https://mars.nasa.gov/"
@@ -245,10 +210,10 @@ onMount(() => {
 	via
 	<a
 		class="underline hover:text-(--primary)"
-		href="https://marsvista.dev/docs"
+		href="https://images.nasa.gov/"
 		target="_blank"
 		rel="noreferrer"
 	>
-		Mars Vista API
+		NASA Images
 	</a>.
 </p>
