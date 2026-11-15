@@ -164,11 +164,14 @@ Gallery đang được bật nhưng hiện chưa có album mẫu. Để thêm al
 
 Các trang tùy chọn như VNDB, Bangumi, Projects và Friends được bật/tắt trong `pages` ở `src/config/siteConfig.ts`. Đặt giá trị `true` để bật hoặc `false` để tắt. Chỉ bật trang khi đã chuẩn bị nội dung và cấu hình tương ứng.
 
-### Mục Earth (ảnh Trái Đất của NASA)
+### Mục Earth (NASA EPIC và Sentinel-2)
 
-Mục **Earth** gọi API công khai của [NASA EPIC](https://epic.gsfc.nasa.gov/about/api) để lấy ảnh tự nhiên mới nhất. Trang cho phép chọn ngày; chạm ảnh để mở PNG độ phân giải cao. Cần kết nối Internet để lấy dữ liệu. Nếu NASA API tạm thời không hoạt động, thử lại sau.
+Mục **Earth** có hai nguồn ảnh:
 
-Không cần API key. Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện ở `src/pages/earth.astro` và `src/components/pages/EarthGallery.svelte`.
+- **NASA EPIC:** ảnh tự nhiên gần thời gian thực; có thể chọn ngày và chạm ảnh để mở PNG độ phân giải cao.
+- **Sentinel-2:** bản đồ ảnh vệ tinh Level-2A trên Việt Nam. GitHub Actions tìm tối đa 100 cảnh trong 90 ngày gần nhất, sắp xếp mới nhất trước, rồi chọn cảnh mới nhất có độ mây không quá 25%. Nếu không có cảnh đạt ngưỡng, trang chọn cảnh ít mây nhất trong kết quả. Trang luôn hiển thị ngày và tỷ lệ mây; nút **Show newest anyway** chuyển sang cảnh mới nhất bất kể mây. Có thể kéo/zoom bản đồ và bấm nút để quay về cảnh ít mây đã chọn.
+
+Không cần API key. Dữ liệu tìm kiếm và TileJSON được làm mới mỗi ngày bởi GitHub Actions từ [Earth Search STAC API](https://earth-search.aws.element84.com/) và [TiTiler](https://titiler.xyz/). Menu được cấu hình trong `src/config/navBarConfig.ts`; trang và giao diện ở `src/pages/earth.astro`, `src/components/pages/EarthGallery.svelte` và `src/components/pages/SentinelGallery.svelte`.
 
 ### Mục Mars (ảnh tư liệu NASA về Curiosity và Perseverance)
 

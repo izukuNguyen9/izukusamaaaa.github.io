@@ -51,6 +51,9 @@ jobs:
 
       - name: Fetch NASA Mars image search results
         run: pnpm exec tsx scripts/generate-mars-photos.ts
+
+      - name: Fetch Sentinel-2 scene and TileJSON
+        run: pnpm exec tsx scripts/generate-sentinel-scenes.ts
       
       - name: Build site
         run: pnpm run build

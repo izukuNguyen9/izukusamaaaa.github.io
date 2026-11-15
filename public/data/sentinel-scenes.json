@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-11-15T16:01:54.350Z",
+  "region": "Vietnam",
+  "searchDays": 90,
+  "cloudThreshold": 25,
+  "selectedByCloudFallback": false,
+  "selected": {
+    "id": "S2A_T48PUB_20261115T034354_L2A",
+    "datetime": "2026-11-15T03:44:10.098000Z",
+    "cloudCover": 24.158035,
+    "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2A_T48PUB_20261115T034354_L2A",
+    "tileJson": {
+      "tiles": [
+        "https://titiler.xyz/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2A_T48PUB_20261115T034354_L2A&assets=visual&tilesize=512"
+      ],
+      "bounds": [
+        103.13671108562895,
+        14.377132874319605,
+        104.16336579580394,
+        15.375553617683709
+      ],
+      "center": [
+        103.65003844071644,
+        14.876343246001657,
+        8
+      ],
+      "minzoom": 8,
+      "maxzoom": 14
+    }
+  },
+  "latest": {
+    "id": "S2A_T47PRK_20261115T034354_L2A",
+    "datetime": "2026-11-15T03:45:56.996000Z",
+    "cloudCover": 99.99699,
+    "self": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2A_T47PRK_20261115T034354_L2A",
+    "tileJson": {
+      "tiles": [
+        "https://titiler.xyz/stac/tiles/WebMercatorQuad/{z}/{x}/{y}?url=https%3A%2F%2Fearth-search.aws.element84.com%2Fv1%2Fcollections%2Fsentinel-2-c1-l2a%2Fitems%2FS2A_T47PRK_20261115T034354_L2A&assets=visual&tilesize=512"
+      ],
+      "bounds": [
+        101.72146757415182,
+        8.036744648101147,
+        102.72595704941173,
+        9.036590153051211
+      ],
+      "center": [
+        102.22371231178178,
+        8.536667400576178,
+        8
+      ],
+      "minzoom": 8,
+      "maxzoom": 14
+    }
+  },
+  "resultCount": 100
+}
