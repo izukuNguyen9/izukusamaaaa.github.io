@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 type SentinelScene = {
 	id: string;
@@ -7,6 +7,7 @@ type SentinelScene = {
 	cloudCover: number;
 	self: string;
 	previewUrl: string;
+	fullPreviewUrl: string;
 	bounds?: [number, number, number, number];
 };
 
@@ -29,6 +30,7 @@ function isScene(value: unknown): value is SentinelScene {
 		typeof value.cloudCover === "number" &&
 		typeof value.self === "string" &&
 		typeof value.previewUrl === "string" &&
+		typeof value.fullPreviewUrl === "string" &&
 		(value.bounds === undefined ||
 			(Array.isArray(value.bounds) &&
 				value.bounds.length === 4 &&
@@ -51,8 +53,10 @@ function isSentinelData(value: unknown): value is SentinelData {
 
 let gallery = $state<SentinelData | null>(null);
 let failedPreviewIds = $state<string[]>([]);
+let selectedScene = $state<SentinelScene | null>(null);
 let loading = $state(true);
 let errorMessage = $state("");
+let imageDialog: HTMLDialogElement;
 
 async function loadScenes() {
 	loading = true;
@@ -86,6 +90,16 @@ function markPreviewFailed(sceneId: string) {
 	if (!failedPreviewIds.includes(sceneId)) {
 		failedPreviewIds = [...failedPreviewIds, sceneId];
 	}
+}
+
+async function openScene(scene: SentinelScene) {
+	selectedScene = scene;
+	await tick();
+	if (!imageDialog.open) imageDialog.showModal();
+}
+
+function handleDialogClick(event: MouseEvent) {
+	if (event.target === imageDialog) imageDialog.close();
 }
 
 onMount(() => {
@@ -149,14 +163,16 @@ onMount(() => {
 					{:else}
 						<a
 							href={scene.previewUrl}
-							target="_blank"
-							rel="noreferrer"
-							aria-label={`Open Sentinel-2 scene ${scene.id}`}
+							aria-label={`View larger Sentinel-2 scene ${scene.id}`}
+							onclick={(event) => {
+								event.preventDefault();
+								void openScene(scene);
+							}}
 						>
 							<img
 								src={scene.previewUrl}
 								alt={`Sentinel-2 natural-color satellite scene captured ${scene.datetime}`}
-								class="aspect-[4/3] w-full bg-black object-cover"
+								class="aspect-[4/3] w-full bg-black object-contain"
 								loading={index < 3 ? "eager" : "lazy"}
 								decoding="async"
 								onerror={() => markPreviewFailed(scene.id)}
@@ -187,6 +203,42 @@ onMount(() => {
 			{/each}
 		</div>
 	{/if}
+
+	<dialog
+		bind:this={imageDialog}
+		class="m-auto max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-black p-3 text-white shadow-2xl backdrop:bg-black/80"
+		onclick={handleDialogClick}
+		onclose={() => (selectedScene = null)}
+	>
+		{#if selectedScene}
+			<div class="mb-2 flex items-center justify-between gap-4">
+				<p class="text-sm">
+					Sentinel-2 · {new Date(selectedScene.datetime).toLocaleString()}
+				</p>
+				<button
+					class="rounded-lg border border-white/40 px-3 py-1 text-sm hover:bg-white/10"
+					type="button"
+					onclick={() => imageDialog.close()}
+				>
+					Close
+				</button>
+			</div>
+			<img
+				src={selectedScene.fullPreviewUrl}
+				alt={`Higher-resolution Sentinel-2 scene captured ${selectedScene.datetime}`}
+				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+				decoding="async"
+			/>
+			<a
+				class="mt-2 inline-block text-sm underline hover:text-white/80"
+				href={selectedScene.fullPreviewUrl}
+				target="_blank"
+				rel="noreferrer"
+			>
+				Open larger Sentinel-2 preview in new tab
+			</a>
+		{/if}
+	</dialog>
 </section>
 
 <p class="text-center text-xs text-50">

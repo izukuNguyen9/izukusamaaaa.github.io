@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 type OpusImage = {
 	opusId: string;
@@ -183,6 +183,8 @@ let loadingDay = $state(false);
 let loadingMore = $state(false);
 let errorMessage = $state("");
 let loadMoreError = $state("");
+let selectedImage = $state<OpusImage | null>(null);
+let imageDialog: HTMLDialogElement;
 let requestController: AbortController | null = null;
 let requestId = 0;
 
@@ -292,6 +294,16 @@ async function loadMore() {
 	}
 }
 
+async function openImage(image: OpusImage) {
+	selectedImage = image;
+	await tick();
+	if (!imageDialog.open) imageDialog.showModal();
+}
+
+function handleDialogClick(event: MouseEvent) {
+	if (event.target === imageDialog) imageDialog.close();
+}
+
 onMount(() => {
 	void initialize();
 	return () => requestController?.abort();
@@ -376,12 +388,14 @@ onMount(() => {
 				>
 					<a
 						href={image.fullUrl}
-						target="_blank"
-						rel="noreferrer"
-						aria-label={`Open full-size Cassini image ${image.opusId}`}
+						aria-label={`View larger Cassini image ${image.opusId}`}
+						onclick={(event) => {
+							event.preventDefault();
+							void openImage(image);
+						}}
 					>
 						<img
-							src={image.url}
+							src={image.fullUrl}
 							alt={`Cassini ${getCameraName(image.opusId)} preview, ${image.opusId}`}
 							class="aspect-square w-full bg-black object-contain"
 							loading="lazy"
@@ -425,6 +439,42 @@ onMount(() => {
 			</div>
 		{/if}
 	{/if}
+
+	<dialog
+		bind:this={imageDialog}
+		class="m-auto max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-black p-3 text-white shadow-2xl backdrop:bg-black/80"
+		onclick={handleDialogClick}
+		onclose={() => (selectedImage = null)}
+	>
+		{#if selectedImage}
+			<div class="mb-2 flex items-center justify-between gap-4">
+				<p class="text-sm">
+					{getCameraName(selectedImage.opusId)} · {selectedImage.opusId}
+				</p>
+				<button
+					class="rounded-lg border border-white/40 px-3 py-1 text-sm hover:bg-white/10"
+					type="button"
+					onclick={() => imageDialog.close()}
+				>
+					Close
+				</button>
+			</div>
+			<img
+				src={selectedImage.fullUrl}
+				alt={`Full-size Cassini ${getCameraName(selectedImage.opusId)} image ${selectedImage.opusId}`}
+				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+				decoding="async"
+			/>
+			<a
+				class="mt-2 inline-block text-sm underline hover:text-white/80"
+				href={selectedImage.fullUrl}
+				target="_blank"
+				rel="noreferrer"
+			>
+				Open full-size image in new tab
+			</a>
+		{/if}
+	</dialog>
 </section>
 
 <p class="text-center text-xs text-50">

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 type EpicImage = {
 	image: string;
@@ -43,8 +43,10 @@ const ARCHIVE_URL = "https://epic.gsfc.nasa.gov/archive/natural";
 
 let images = $state<EpicImage[]>([]);
 let selectedDate = $state("");
+let selectedImage = $state<EpicImage | null>(null);
 let loading = $state(true);
 let errorMessage = $state("");
+let imageDialog: HTMLDialogElement;
 
 async function loadImages(date?: string) {
 	loading = true;
@@ -83,16 +85,25 @@ async function loadImages(date?: string) {
 	}
 }
 
-function getImageUrl(image: EpicImage, size: "thumbs" | "png") {
+function getImageUrl(image: EpicImage, size: "jpg" | "png") {
 	const [year, month, day] = image.date.slice(0, 10).split("-");
-	const extension = size === "png" ? "png" : "jpg";
-	return `${ARCHIVE_URL}/${year}/${month}/${day}/${size}/${image.image}.${extension}`;
+	return `${ARCHIVE_URL}/${year}/${month}/${day}/${size}/${image.image}.${size}`;
 }
 
 function handleDateSubmit(event: SubmitEvent) {
 	event.preventDefault();
 	if (!selectedDate) return;
 	void loadImages(selectedDate);
+}
+
+async function openImage(image: EpicImage) {
+	selectedImage = image;
+	await tick();
+	if (!imageDialog.open) imageDialog.showModal();
+}
+
+function handleDialogClick(event: MouseEvent) {
+	if (event.target === imageDialog) imageDialog.close();
 }
 
 onMount(() => {
@@ -143,19 +154,21 @@ onMount(() => {
 	{:else}
 		<p class="mb-4 text-sm text-50">
 			{images.length} images for {selectedDate}. Select an image to open its
-			full-resolution PNG.
+			full-resolution PNG in the viewer.
 		</p>
 		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
 			{#each images as image (image.image)}
 				<article class="overflow-hidden rounded-xl border border-(--line-divider)">
 					<a
 						href={getImageUrl(image, "png")}
-						target="_blank"
-						rel="noreferrer"
-						aria-label={`Open full-resolution Earth image from ${image.date}`}
+						aria-label={`View larger Earth image from ${image.date}`}
+						onclick={(event) => {
+							event.preventDefault();
+							void openImage(image);
+						}}
 					>
 						<img
-							src={getImageUrl(image, "thumbs")}
+							src={getImageUrl(image, "jpg")}
 							alt={`Natural-color image of Earth captured ${image.date} UTC`}
 							class="aspect-square w-full bg-black object-contain"
 							loading="lazy"
@@ -177,6 +190,42 @@ onMount(() => {
 			{/each}
 		</div>
 	{/if}
+
+	<dialog
+		bind:this={imageDialog}
+		class="m-auto max-h-[95vh] max-w-[95vw] overflow-auto rounded-xl bg-black p-3 text-white shadow-2xl backdrop:bg-black/80"
+		onclick={handleDialogClick}
+		onclose={() => (selectedImage = null)}
+	>
+		{#if selectedImage}
+			<div class="mb-2 flex items-center justify-between gap-4">
+				<p class="text-sm">
+					Earth image · {selectedImage.date.slice(0, 16)} UTC
+				</p>
+				<button
+					class="rounded-lg border border-white/40 px-3 py-1 text-sm hover:bg-white/10"
+					type="button"
+					onclick={() => imageDialog.close()}
+				>
+					Close
+				</button>
+			</div>
+			<img
+				src={getImageUrl(selectedImage, "png")}
+				alt={`Full-resolution Earth image captured ${selectedImage.date} UTC`}
+				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+				decoding="async"
+			/>
+			<a
+				class="mt-2 inline-block text-sm underline hover:text-white/80"
+				href={getImageUrl(selectedImage, "png")}
+				target="_blank"
+				rel="noreferrer"
+			>
+				Open full-resolution PNG in new tab
+			</a>
+		{/if}
+	</dialog>
 </section>
 
 <p class="text-center text-xs text-50">

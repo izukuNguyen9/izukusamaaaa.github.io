@@ -1,7 +1,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 
 const SEARCH_URL = "https://earth-search.aws.element84.com/v1/search";
-const PREVIEW_URL = "https://titiler.xyz/stac/preview/640x400.jpg";
+const PREVIEW_URL = "https://titiler.xyz/stac/preview/1280x800.jpg";
+const FULL_PREVIEW_URL = "https://titiler.xyz/stac/preview/2048x2048.jpg";
 const OUTPUT_PATH = "public/data/sentinel-scenes.json";
 const COLLECTION = "sentinel-2-c1-l2a";
 const SEARCH_LIMIT = 100;
@@ -14,6 +15,7 @@ type Scene = {
 	cloudCover: number;
 	self: string;
 	previewUrl: string;
+	fullPreviewUrl: string;
 	bounds?: [number, number, number, number];
 };
 
@@ -96,6 +98,7 @@ function getScenes(data: unknown): Scene[] {
 			cloudCover,
 			self,
 			previewUrl: `${PREVIEW_URL}?${previewParams.toString()}`,
+			fullPreviewUrl: `${FULL_PREVIEW_URL}?${previewParams.toString()}`,
 			...(isNumberArray(feature.bbox, 4)
 				? {
 						bounds: [
