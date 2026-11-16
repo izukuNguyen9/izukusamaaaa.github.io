@@ -26,6 +26,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "material-symbols:public",
 	});
 	links.push({
+		name: "Cassini",
+		url: "/cassini/",
+		icon: "material-symbols:satellite-alt",
+	});
+	links.push({
 		name: "Mars",
 		url: "/mars/",
 		icon: "material-symbols:rocket-launch",

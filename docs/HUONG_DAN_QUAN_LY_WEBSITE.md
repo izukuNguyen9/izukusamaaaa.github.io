@@ -184,6 +184,18 @@ Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API c�
 
 Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 
+### Mục Cassini (ảnh xem trước từ PDS Rings OPUS)
+
+Mục **Cassini** tra cứu ảnh của Cassini Imaging Science Subsystem theo ngày UTC qua [PDS Rings OPUS](https://opus.pds-rings.seti.org/opus/). Trang dùng bộ lọc `instrument=Cassini ISS` và `COISSfilter=CLEAR`; `CLEAR` là giá trị đúng của bộ lọc này, không thay bằng `CL1` hoặc `CL2`.
+
+- Ngày được giới hạn theo khoảng OPUS trả về (hiện từ 1999-01-09 đến 2017-09-14). Mỗi ngày được truy vấn theo cửa sổ UTC nửa mở `[ngày, ngày kế tiếp)`.
+- Số ảnh của ngày hiện cạnh nút **Show date**. Ngày không có ảnh hiện thông báo cụ thể thay vì lưới trống.
+- Mỗi lần tải tối đa 24 ảnh xem trước; chọn **Load 24 more** để phân trang tiếp. Thumbnail và ảnh lớn được ghép theo `opus_id`.
+- ID `co-iss-n...` là Narrow Angle, còn `co-iss-w...` là Wide Angle. Bấm ảnh hoặc **Open full-size preview** để mở ảnh lớn.
+- Đây là ảnh xem trước PNG/JPG và metadata để duyệt, không phải dữ liệu khoa học của thiết bị.
+
+Trang và giao diện nằm ở `src/pages/cassini.astro` và `src/components/pages/CassiniGallery.svelte`; mục menu được khai báo trong `src/config/navBarConfig.ts`.
+
 ## 7. Thay đổi nhạc
 
 Trình phát hiện dùng playlist cục bộ, cấu hình tại [src/config/musicConfig.ts](../src/config/musicConfig.ts).

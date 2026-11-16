@@ -1,0 +1,11 @@
+---
+import CassiniGallery from "@/components/pages/CassiniGallery.svelte";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+---
+
+<MainGridLayout
+	title="Cassini"
+	description="Browse daily preview images from the Cassini Imaging Science Subsystem."
+>
+	<CassiniGallery client:load />
+</MainGridLayout>
