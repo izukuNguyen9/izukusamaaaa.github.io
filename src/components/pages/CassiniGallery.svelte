@@ -220,7 +220,7 @@ async function loadDay(date: string) {
 	} catch (error) {
 		if (currentRequest !== requestId || controller.signal.aborted) return;
 		console.error(`[Cassini] Failed to load images for ${date}:`, error);
-		errorMessage = "Could not load Cassini images. Please try again.";
+		errorMessage = `Could not load Cassini images for ${date} UTC. Please try again.`;
 	} finally {
 		if (currentRequest === requestId) loadingDay = false;
 	}
@@ -342,6 +342,11 @@ onMount(() => {
 		>
 			{loadingDay ? "Loading…" : "Show date"}
 		</button>
+		{#if selectedDate}
+			<output class="pb-2 text-sm text-50" for="cassini-date">
+				Selected: {selectedDate} UTC
+			</output>
+		{/if}
 		{#if loadingDay}
 			<span class="pb-2 text-sm text-50" role="status">Checking image count…</span>
 		{:else if imageCount !== null && loadedDate === selectedDate}

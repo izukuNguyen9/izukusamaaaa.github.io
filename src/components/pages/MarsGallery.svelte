@@ -194,10 +194,8 @@ async function fetchMslPage(
 		.map(getMslPhoto)
 		.filter((photo): photo is MarsPhoto => photo !== null)
 		.filter((photo) => photo.sol === sol);
-	const fullImages = matchingPhotos.filter((photo) => !photo.isThumbnail);
-
 	return {
-		photos: fullImages.length > 0 ? fullImages : matchingPhotos,
+		photos: matchingPhotos,
 		more: data.more,
 	};
 }
@@ -462,8 +460,7 @@ onMount(() => {
 	{:else}
 		<div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
 			<p class="text-sm text-50">
-				{activeRover?.name} · Sol {selectedSol} · Latest sol {maxSol} ·
-				{filteredPhotos.length} {selectedCamera === "all" ? "images" : selectedCamera + " images"}
+				{activeRover?.name} · Sol {selectedSol} · Latest sol {maxSol}
 			</p>
 			<a
 				class="text-xs underline hover:text-(--primary)"
@@ -476,6 +473,13 @@ onMount(() => {
 				View NASA raw image archive
 			</a>
 		</div>
+		<p class="mb-4 text-sm text-50" role="status">
+			Showing {visiblePhotos.length} of {filteredPhotos.length} loaded
+			{selectedCamera === "all" ? "images" : `${selectedCamera} images`}.
+			{#if selectedRover === "curiosity" && hasMore}
+				More results are available from NASA.
+			{/if}
+		</p>
 
 		{#if filteredPhotos.length === 0}
 			<p class="py-12 text-center text-50" role="status">
@@ -540,7 +544,11 @@ onMount(() => {
 						disabled={loadingMore}
 						onclick={() => loadMore()}
 					>
-						{loadingMore ? "Loading…" : `Load ${DISPLAY_BATCH_SIZE} more`}
+						{loadingMore
+							? "Loading…"
+							: filteredPhotos.length > visibleCount
+								? `Show next ${DISPLAY_BATCH_SIZE}`
+								: `Load next NASA page`}
 					</button>
 				</div>
 			{/if}

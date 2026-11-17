@@ -180,7 +180,7 @@ Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API c�
 - **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, phân trang tối đa 200 kết quả/lần.
 - **Perseverance (M20):** sol mới nhất lấy từ nguồn ảnh mới nhất; ảnh lấy theo sol, cùng các URL ảnh nhỏ và ảnh gốc.
 - Trường **Sol** chỉ nhận giá trị từ 0 đến sol mới nhất mà NASA trả về. Trường **Camera** được tạo từ những ảnh nhận được của rover/sol đang chọn, không dùng danh sách camera cố định.
-- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang ưu tiên ảnh không phải thumbnail khi NASA đã trả ảnh đó; với Perseverance, ảnh xem trước dùng bản lớn (1200 px). Nhấn ảnh để phóng trong trình xem ngay trên trang; liên kết bên dưới mở ảnh NASA tương ứng ở tab mới. Kích hoạt **Load 50 more** để xem tiếp. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
+- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang lấy đủ cả ảnh gốc và bản thumbnail qua các trang NASA (tối đa 200 bản ghi/lần); trạng thái cho biết số ảnh đang xem, số ảnh đã tải và khi còn trang NASA tiếp theo. Với Perseverance, API trả toàn bộ ảnh của sol và giao diện cho xem tiếp mỗi 50 ảnh. Nhấn ảnh để phóng trong trình xem ngay trên trang; liên kết bên dưới mở ảnh NASA tương ứng ở tab mới. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
 
 Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 
@@ -189,7 +189,7 @@ Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_im
 Mục **Cassini** tra cứu ảnh của Cassini Imaging Science Subsystem theo ngày UTC qua [PDS Rings OPUS](https://opus.pds-rings.seti.org/opus/). Trang dùng bộ lọc `instrument=Cassini ISS` và `COISSfilter=CLEAR`; `CLEAR` là giá trị đúng của bộ lọc này, không thay bằng `CL1` hoặc `CL2`.
 
 - Ngày được giới hạn theo khoảng OPUS trả về (hiện từ 1999-01-09 đến 2017-09-14). Mỗi ngày được truy vấn theo cửa sổ UTC nửa mở `[ngày, ngày kế tiếp)`.
-- Số ảnh của ngày hiện cạnh nút **Show date**. Ngày không có ảnh hiện thông báo cụ thể thay vì lưới trống.
+- Ngày đang chọn được ghi rõ theo dạng `YYYY-MM-DD UTC`; số ảnh của ngày hiện cạnh nút **Show date**. Ngày không có ảnh hiện thông báo cụ thể thay vì lưới trống.
 - Mỗi lần tải tối đa 24 ảnh xem trước; chọn **Load 24 more** để phân trang tiếp. Ảnh lớn được ghép với thumbnail theo `opus_id`.
 - ID `co-iss-n...` là Narrow Angle, còn `co-iss-w...` là Wide Angle. Ảnh lớn mở trong trình xem ngay trên trang; có thể chọn **Open full-size image in new tab** để mở riêng.
 - Đây là ảnh xem trước PNG/JPG và metadata để duyệt, không phải dữ liệu khoa học của thiết bị.
