@@ -170,11 +170,12 @@ async function fetchMslPage(
 	signal: AbortSignal,
 ): Promise<MslPage> {
 	const params = new URLSearchParams({
-		order: "sol desc",
+		order: "sample_type_sort asc,sol desc",
 		condition_1: "msl:mission",
+		condition_2: `${sol}:sol:gte`,
+		condition_3: `${sol}:sol:lte`,
 		per_page: String(MSL_PAGE_SIZE),
 		page: String(page),
-		search: String(sol),
 	});
 	const data = await fetchJson(
 		`https://mars.nasa.gov/api/v1/raw_image_items/?${params}`,
@@ -194,7 +195,7 @@ async function fetchMslPage(
 	const matchingPhotos = data.items
 		.map(getMslPhoto)
 		.filter((photo): photo is MarsPhoto => photo !== null)
-		.filter((photo) => photo.sol === sol);
+		.filter((photo) => photo.sol === sol && !photo.isThumbnail);
 	return {
 		photos: matchingPhotos,
 		more: data.more,
@@ -208,7 +209,7 @@ let solInput = $state(0);
 let selectedCamera = $state("all");
 let photos = $state<MarsPhoto[]>([]);
 let visibleCount = $state(DISPLAY_BATCH_SIZE);
-let currentPage = $state(1);
+let currentPage = $state(0);
 let hasMore = $state(false);
 let loadingLatest = $state(true);
 let loadingPhotos = $state(false);
@@ -250,12 +251,12 @@ async function loadPhotos(sol: number) {
 	photos = [];
 	selectedCamera = "all";
 	visibleCount = DISPLAY_BATCH_SIZE;
-	currentPage = 1;
+	currentPage = 0;
 	hasMore = false;
 
 	try {
 		if (selectedRover === "curiosity") {
-			const page = await fetchMslPage(sol, 1, controller.signal);
+			const page = await fetchMslPage(sol, 0, controller.signal);
 			if (currentRequest !== requestId) return;
 			photos = page.photos;
 			hasMore = page.more;
@@ -351,17 +352,19 @@ async function loadMore() {
 	loadMoreError = "";
 
 	try {
-		const page = await fetchMslPage(
-			selectedSol,
-			currentPage + 1,
-			controller.signal,
-		);
-		if (controller !== photoController || controller.signal.aborted) return;
+		let nextPage = currentPage + 1;
+		let page: MslPage;
+		do {
+			page = await fetchMslPage(selectedSol, nextPage, controller.signal);
+			if (controller !== photoController || controller.signal.aborted) return;
+			currentPage = nextPage;
+			nextPage += 1;
+		} while (page.photos.length === 0 && page.more);
+
 		const ids = new Set(photos.map((photo) => photo.id));
 		photos = [...photos, ...page.photos.filter((photo) => !ids.has(photo.id))];
-		currentPage += 1;
 		hasMore = page.more;
-		visibleCount += DISPLAY_BATCH_SIZE;
+		if (page.photos.length > 0) visibleCount += DISPLAY_BATCH_SIZE;
 	} catch (error) {
 		if (controller.signal.aborted) return;
 		console.error(

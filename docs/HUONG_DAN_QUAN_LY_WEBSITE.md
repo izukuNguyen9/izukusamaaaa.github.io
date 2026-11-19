@@ -177,10 +177,10 @@ Không cần API key. Ảnh gallery tải lười; chọn ảnh để xem ảnh 
 
 Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API của [NASA Mars](https://mars.nasa.gov/), không cần API key và không chờ dữ liệu tạo theo lịch:
 
-- **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, phân trang tối đa 200 kết quả/lần.
+- **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, ưu tiên các ảnh gốc và ảnh subframe (`is_thumbnail=false`), bỏ qua thumbnail. Sắp xếp theo loại ảnh để ảnh gốc được tải trước; mỗi trang API tối đa 200 kết quả.
 - **Perseverance (M20):** sol mới nhất lấy từ nguồn ảnh mới nhất; ảnh lấy theo sol. Mastcam-Z (`MCZ_LEFT/RIGHT`) dùng PNG `full_res` ngay trên lưới; các camera khác dùng ảnh lớn làm thumbnail và mở `full_res` khi phóng to.
 - Trường **Sol** chỉ nhận giá trị từ 0 đến sol mới nhất mà NASA trả về. Trường **Camera** được tạo từ những ảnh nhận được của rover/sol đang chọn, không dùng danh sách camera cố định.
-- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang lấy đủ các bản ghi qua các trang NASA (tối đa 200/lần); nếu Mastcam chỉ có thumbnail thì NASA chưa cung cấp ảnh gốc cho bản ghi đó và trang sẽ ghi rõ. Với Perseverance, API trả toàn bộ ảnh của sol và giao diện cho xem tiếp mỗi 50 ảnh. Nhấn ảnh để phóng trong trình xem ngay trên trang; liên kết bên dưới mở ảnh NASA tương ứng ở tab mới. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
+- Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang phân trang dữ liệu NASA theo sol (tối đa 200 kết quả/lần), chỉ hiển thị ảnh gốc/subframe và bỏ qua các bản thumbnail trùng lặp. Với Perseverance, API trả toàn bộ ảnh của sol và giao diện cho xem tiếp mỗi 50 ảnh. Nhấn ảnh để phóng trong trình xem ngay trên trang; liên kết bên dưới mở ảnh NASA tương ứng ở tab mới. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
 
 Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 
