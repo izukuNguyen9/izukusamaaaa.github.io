@@ -3,8 +3,7 @@ import { onMount, tick } from "svelte";
 
 type OpusImage = {
 	opusId: string;
-	url: string;
-	fullUrl: string;
+	imageUrl: string;
 	width: number;
 	height: number;
 	sizeBytes: number;
@@ -51,33 +50,26 @@ function parseImages(value: unknown): OpusImageRecord[] {
 	return value.data;
 }
 
-function parseImage(
-	preview: OpusImageRecord,
-	fullById: Map<string, string>,
-): OpusImage {
+function parseImage(value: OpusImageRecord): OpusImage {
 	if (
-		typeof preview.opus_id !== "string" ||
-		typeof preview.width !== "number" ||
-		typeof preview.height !== "number" ||
-		typeof preview.size_bytes !== "number"
+		typeof value.opus_id !== "string" ||
+		typeof value.width !== "number" ||
+		typeof value.height !== "number" ||
+		typeof value.size_bytes !== "number"
 	) {
 		throw new Error("OPUS returned incomplete image metadata");
 	}
-	const url = opusImageUrl(preview.url);
-	const fullUrl = fullById.get(preview.opus_id);
-	if (!url || !fullUrl) {
-		throw new Error(
-			`OPUS did not return both image sizes for ${preview.opus_id}`,
-		);
+	const imageUrl = opusImageUrl(value.url);
+	if (!imageUrl) {
+		throw new Error(`OPUS returned an invalid image URL for ${value.opus_id}`);
 	}
 
 	return {
-		opusId: preview.opus_id,
-		url,
-		fullUrl,
-		width: preview.width,
-		height: preview.height,
-		sizeBytes: preview.size_bytes,
+		opusId: value.opus_id,
+		imageUrl,
+		width: value.width,
+		height: value.height,
+		sizeBytes: value.size_bytes,
 	};
 }
 
@@ -130,27 +122,15 @@ async function fetchImagePage(
 		limit: String(PAGE_SIZE),
 		startobs: String(startObservation),
 	};
-	const [previewData, fullData] = await Promise.all(
-		(["med", "full"] as const).map(async (size) => {
-			const params = getCommonParams(date);
-			for (const [key, value] of Object.entries(pageParams)) {
-				params.set(key, value);
-			}
-			return fetchJson(
-				`${API_BASE_URL}/images/${size}.json?${params.toString()}`,
-				signal,
-			);
-		}),
-	);
-	const previewRecords = parseImages(previewData);
-	const fullById = new Map<string, string>();
-	for (const image of parseImages(fullData)) {
-		if (typeof image.opus_id !== "string") continue;
-		const fullUrl = opusImageUrl(image.url);
-		if (fullUrl) fullById.set(image.opus_id, fullUrl);
+	const params = getCommonParams(date);
+	for (const [key, value] of Object.entries(pageParams)) {
+		params.set(key, value);
 	}
-
-	return previewRecords.map((image) => parseImage(image, fullById));
+	const fullData = await fetchJson(
+		`${API_BASE_URL}/images/full.json?${params.toString()}`,
+		signal,
+	);
+	return parseImages(fullData).map(parseImage);
 }
 
 async function fetchImageCount(date: string, signal: AbortSignal) {
@@ -314,8 +294,8 @@ onMount(() => {
 	<div class="mb-5">
 		<h2 class="text-xl font-bold">Cassini ISS image archive</h2>
 		<p class="mt-1 text-sm text-50">
-			Browse Cassini Imaging Science Subsystem preview images by UTC date.
-			Images are browse previews, not scientific data products.
+			Browse full-size Cassini Imaging Science Subsystem images by UTC date.
+			These are browse products, not scientific data products.
 		</p>
 	</div>
 
@@ -392,7 +372,7 @@ onMount(() => {
 					class="overflow-hidden rounded-xl border border-(--line-divider)"
 				>
 					<a
-						href={image.fullUrl}
+						href={image.imageUrl}
 						aria-label={`View larger Cassini image ${image.opusId}`}
 						onclick={(event) => {
 							event.preventDefault();
@@ -400,7 +380,7 @@ onMount(() => {
 						}}
 					>
 						<img
-							src={image.fullUrl}
+							src={image.imageUrl}
 							alt={`Cassini ${getCameraName(image.opusId)} preview, ${image.opusId}`}
 							class="aspect-square w-full bg-black object-contain"
 							loading="lazy"
@@ -415,11 +395,11 @@ onMount(() => {
 						</p>
 						<a
 							class="mt-2 inline-block text-sm underline hover:text-(--primary)"
-							href={image.fullUrl}
+							href={image.imageUrl}
 							target="_blank"
 							rel="noreferrer"
 						>
-							Open full-size preview
+							Open full-size image
 						</a>
 					</div>
 				</article>
@@ -465,14 +445,14 @@ onMount(() => {
 				</button>
 			</div>
 			<img
-				src={selectedImage.fullUrl}
+				src={selectedImage.imageUrl}
 				alt={`Full-size Cassini ${getCameraName(selectedImage.opusId)} image ${selectedImage.opusId}`}
 				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
 				decoding="async"
 			/>
 			<a
 				class="mt-2 inline-block text-sm underline hover:text-white/80"
-				href={selectedImage.fullUrl}
+				href={selectedImage.imageUrl}
 				target="_blank"
 				rel="noreferrer"
 			>

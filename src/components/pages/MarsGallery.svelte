@@ -129,16 +129,17 @@ function getPerseverancePhotos(value: unknown, sol: number): MarsPhoto[] {
 				: "";
 		if (!camera || !isRecord(image.image_files)) return [];
 
-		const previewUrl =
-			nasaImageUrl(image.image_files.large) ??
-			nasaImageUrl(image.image_files.medium) ??
-			nasaImageUrl(image.image_files.small) ??
-			nasaImageUrl(image.image_files.full_res);
 		const fullImageUrl =
 			nasaImageUrl(image.image_files.full_res) ??
 			nasaImageUrl(image.image_files.large) ??
 			nasaImageUrl(image.image_files.medium) ??
 			nasaImageUrl(image.image_files.small);
+		const previewUrl = camera.startsWith("MCZ_")
+			? (nasaImageUrl(image.image_files.full_res) ?? fullImageUrl)
+			: (nasaImageUrl(image.image_files.large) ??
+				nasaImageUrl(image.image_files.medium) ??
+				nasaImageUrl(image.image_files.small) ??
+				fullImageUrl);
 		if (!previewUrl || !fullImageUrl) return [];
 
 		return [
@@ -523,7 +524,9 @@ onMount(() => {
 								rel="noreferrer"
 							>
 								{photo.isThumbnail
-									? "NASA image details (thumbnail only)"
+									? photo.camera.startsWith("MAST_")
+										? "NASA thumbnail (full Mastcam image not available)"
+										: "NASA image details (thumbnail only)"
 									: "Open original image"}
 							</a>
 						</div>
@@ -587,7 +590,9 @@ onMount(() => {
 				rel="noreferrer"
 			>
 				{selectedPhoto.isThumbnail
-					? "Open NASA image details"
+					? selectedPhoto.camera.startsWith("MAST_")
+						? "Full Mastcam image is not available from NASA yet"
+						: "Open NASA image details"
 					: "Open original image in new tab"}
 			</a>
 		{/if}
