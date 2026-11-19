@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount, tick } from "svelte";
+import MastcamDebayerImage from "./MastcamDebayerImage.svelte";
 
 type RoverId = "curiosity" | "perseverance";
 
@@ -12,6 +13,7 @@ type MarsPhoto = {
 	previewUrl: string;
 	fullImageUrl: string;
 	isThumbnail: boolean;
+	isMastcamBayer: boolean;
 };
 
 type MslPage = {
@@ -110,6 +112,10 @@ function getMslPhoto(value: unknown): MarsPhoto | null {
 		previewUrl: imageUrl,
 		fullImageUrl: value.is_thumbnail === true ? detailUrl : imageUrl,
 		isThumbnail: value.is_thumbnail === true,
+		isMastcamBayer:
+			camera.startsWith("MAST_") &&
+			typeof value.imageid === "string" &&
+			/C00_DXXX$/i.test(value.imageid),
 	};
 }
 
@@ -159,6 +165,7 @@ function getPerseverancePhotos(value: unknown, sol: number): MarsPhoto[] {
 				previewUrl,
 				fullImageUrl,
 				isThumbnail: false,
+				isMastcamBayer: false,
 			},
 		];
 	});
@@ -388,7 +395,9 @@ onMount(() => {
 		<h2 class="text-xl font-bold">Latest Mars rover images</h2>
 		<p class="mt-1 text-sm text-50">
 			Browse camera images by rover and sol. The latest available sol is
-			updated directly from NASA.
+			updated directly from NASA. Full-resolution Curiosity Mastcam color
+			frames are reconstructed from their Bayer data in your browser; color
+			is approximate, not a NASA-calibrated product.
 		</p>
 	</div>
 
@@ -502,13 +511,21 @@ onMount(() => {
 							aria-label={`View larger image: ${photo.title}`}
 							onclick={() => openImage(photo)}
 						>
-							<img
-								src={photo.previewUrl}
-								alt={photo.title}
-								class="aspect-[4/3] w-full object-contain"
-								loading="lazy"
-								decoding="async"
-							/>
+							{#if photo.isMastcamBayer}
+								<MastcamDebayerImage
+									src={photo.fullImageUrl}
+									alt={photo.title}
+									class="aspect-[4/3] object-contain"
+								/>
+							{:else}
+								<img
+									src={photo.previewUrl}
+									alt={photo.title}
+									class="aspect-[4/3] w-full object-contain"
+									loading="lazy"
+									decoding="async"
+								/>
+							{/if}
 						</button>
 						<div class="p-4">
 							<p class="font-semibold">{photo.title}</p>
@@ -578,21 +595,31 @@ onMount(() => {
 					Close
 				</button>
 			</div>
-			<img
-				src={selectedPhoto.isThumbnail
-					? selectedPhoto.previewUrl
-					: selectedPhoto.fullImageUrl}
-				alt={selectedPhoto.title}
-				class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
-				decoding="async"
-			/>
+			{#if selectedPhoto.isMastcamBayer}
+				<MastcamDebayerImage
+					src={selectedPhoto.fullImageUrl}
+					alt={selectedPhoto.title}
+					class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+				/>
+			{:else}
+				<img
+					src={selectedPhoto.isThumbnail
+						? selectedPhoto.previewUrl
+						: selectedPhoto.fullImageUrl}
+					alt={selectedPhoto.title}
+					class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+					decoding="async"
+				/>
+			{/if}
 			<a
 				class="mt-2 inline-block text-sm underline hover:text-white/80"
 				href={selectedPhoto.fullImageUrl}
 				target="_blank"
 				rel="noreferrer"
 			>
-				{selectedPhoto.isThumbnail
+				{selectedPhoto.isMastcamBayer
+					? "Open original NASA raw image in new tab"
+					: selectedPhoto.isThumbnail
 					? selectedPhoto.camera.startsWith("MAST_")
 						? "Full Mastcam image is not available from NASA yet"
 						: "Open NASA image details"
