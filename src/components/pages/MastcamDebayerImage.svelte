@@ -123,11 +123,17 @@ onMount(() => {
 			Reconstructing Mastcam color…
 		</p>
 	{:else if errorMessage}
+		<img
+			src={src}
+			alt={alt}
+			class={`absolute inset-0 h-full w-full object-contain ${className}`}
+			decoding="async"
+		/>
 		<p
-			class="absolute inset-0 flex items-center justify-center bg-black/80 p-3 text-center text-sm text-white"
+			class="absolute inset-x-0 bottom-0 bg-black/80 p-2 text-center text-xs text-white"
 			role="alert"
 		>
-			{errorMessage}
+			{errorMessage}. Showing the original NASA image.
 		</p>
 	{/if}
 </div>
