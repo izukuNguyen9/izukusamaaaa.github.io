@@ -23,11 +23,33 @@ type MslPage = {
 
 const DISPLAY_BATCH_SIZE = 50;
 const MSL_PAGE_SIZE = 200;
+const MASTCAM_PROXY_URL = import.meta.env.PUBLIC_MASTCAM_PROXY_URL ?? "";
+const RGB_CHANNELS = ["red", "green", "blue"] as const;
+const DEFAULT_RGB_WEIGHTS: [number, number, number] = [1, 1, 1];
 
 const ROVERS: { id: RoverId; name: string }[] = [
 	{ id: "curiosity", name: "Curiosity" },
 	{ id: "perseverance", name: "Perseverance" },
 ];
+
+function parseRgbWeight(value: string): number | null {
+	if (!value.trim()) return 1;
+	const weight = Number(value);
+	return Number.isFinite(weight) && weight >= 0 && weight <= 4 ? weight : null;
+}
+
+function getProxyImageUrl(photo: MarsPhoto, download = false): string | null {
+	if (!MASTCAM_PROXY_URL) return null;
+	const url = new URL("/api/mars-image", MASTCAM_PROXY_URL);
+	url.searchParams.set("url", photo.fullImageUrl);
+	if (download) url.searchParams.set("download", "1");
+	return url.toString();
+}
+
+function getDownloadName(photo: MarsPhoto, extension: "png" | "jpg"): string {
+	const safeId = photo.id.replace(/[^a-zA-Z0-9_-]/g, "_");
+	return `mars-sol-${photo.sol}-${safeId}.${extension}`;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null;
@@ -224,6 +246,7 @@ let loadingMore = $state(false);
 let errorMessage = $state("");
 let loadMoreError = $state("");
 let selectedPhoto = $state<MarsPhoto | null>(null);
+let rgbWeightInputs = $state({ red: "", green: "", blue: "" });
 let imageDialog: HTMLDialogElement;
 let photoController: AbortController | null = null;
 let requestId = 0;
@@ -245,6 +268,13 @@ const canLoadMore = $derived(
 	filteredPhotos.length > visibleCount ||
 		(selectedRover === "curiosity" && hasMore),
 );
+const rgbWeights = $derived.by(() => {
+	const red = parseRgbWeight(rgbWeightInputs.red);
+	const green = parseRgbWeight(rgbWeightInputs.green);
+	const blue = parseRgbWeight(rgbWeightInputs.blue);
+	if (red === null || green === null || blue === null) return null;
+	return [red, green, blue] as [number, number, number];
+});
 
 async function loadPhotos(sol: number) {
 	photoController?.abort();
@@ -396,8 +426,9 @@ onMount(() => {
 		<p class="mt-1 text-sm text-50">
 			Browse camera images by rover and sol. The latest available sol is
 			updated directly from NASA. Full-resolution Curiosity Mastcam color
-			frames are reconstructed from their Bayer data in your browser; color
-			is approximate, not a NASA-calibrated product.
+			frames can be reconstructed and downloaded with optional RGB weights.
+			Only Mastcam Bayer raw images are debayered; other cameras keep their
+			original image.
 		</p>
 	</div>
 
@@ -516,6 +547,7 @@ onMount(() => {
 									src={photo.fullImageUrl}
 									alt={photo.title}
 									class="aspect-[4/3] object-contain"
+									proxyUrl={MASTCAM_PROXY_URL}
 								/>
 							{:else}
 								<img
@@ -596,11 +628,48 @@ onMount(() => {
 				</button>
 			</div>
 			{#if selectedPhoto.isMastcamBayer}
+				<div class="mb-3 grid gap-2 sm:grid-cols-3">
+					{#each RGB_CHANNELS as channel (channel)}
+						<label class="flex flex-col gap-1 text-xs text-white/75">
+							<span>{channel.toUpperCase()} weight</span>
+							<input
+								bind:value={rgbWeightInputs[channel]}
+								class="rounded-lg border border-white/30 bg-black px-2 py-1 text-white"
+								type="number"
+								min="0"
+								max="4"
+								step="0.05"
+								placeholder="1.0 (raw color)"
+								aria-label={`${channel} RGB weight`}
+							/>
+						</label>
+					{/each}
+				</div>
+				<p class="mb-2 text-xs text-white/60">
+					Leave weights blank for unbalanced raw color (1.0 each). Values
+					between 0 and 4 are applied to the reconstructed channels.
+				</p>
+				{#if rgbWeights === null}
+					<p class="mb-2 text-xs text-red-300" role="alert">
+						Enter RGB weights between 0 and 4.
+					</p>
+				{/if}
 				<MastcamDebayerImage
 					src={selectedPhoto.fullImageUrl}
 					alt={selectedPhoto.title}
 					class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
+					proxyUrl={MASTCAM_PROXY_URL}
+					weights={rgbWeights ?? DEFAULT_RGB_WEIGHTS}
+					downloadFileName={getDownloadName(selectedPhoto, "png")}
+					downloadDisabled={rgbWeights === null}
 				/>
+				{#if !MASTCAM_PROXY_URL}
+					<p class="mt-2 text-xs text-amber-200" role="status">
+						Color processing and download will be enabled after the Vercel proxy
+						is deployed and PUBLIC_MASTCAM_PROXY_URL is configured in GitHub
+						Actions.
+					</p>
+				{/if}
 			{:else}
 				<img
 					src={selectedPhoto.isThumbnail
@@ -610,6 +679,18 @@ onMount(() => {
 					class="mx-auto max-h-[82vh] max-w-[92vw] object-contain"
 					decoding="async"
 				/>
+				<a
+					class="mt-2 inline-block text-sm underline hover:text-white/80"
+					href={getProxyImageUrl(selectedPhoto, true) ??
+						selectedPhoto.fullImageUrl}
+					download={getDownloadName(selectedPhoto, "jpg")}
+					target={MASTCAM_PROXY_URL ? undefined : "_blank"}
+					rel={MASTCAM_PROXY_URL ? undefined : "noreferrer"}
+				>
+					{MASTCAM_PROXY_URL
+						? "Download original image (no debayer)"
+						: "Open original image (no debayer)"}
+				</a>
 			{/if}
 			<a
 				class="mt-2 inline-block text-sm underline hover:text-white/80"

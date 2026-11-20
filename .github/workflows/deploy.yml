@@ -53,6 +53,8 @@ jobs:
         run: pnpm exec tsx scripts/generate-sentinel-scenes.ts
       
       - name: Build site
+        env:
+          PUBLIC_MASTCAM_PROXY_URL: ${{ vars.PUBLIC_MASTCAM_PROXY_URL }}
         run: pnpm run build
 
       - name: Create .nojekyll file

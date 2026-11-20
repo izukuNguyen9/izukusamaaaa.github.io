@@ -4,15 +4,19 @@ import { debayerMastcamRggb } from "@/utils/mastcam-debayer";
 
 type DebayerRequest = {
 	url: string;
+	proxyUrl: string;
+	weights: [number, number, number];
 };
 
 self.onmessage = async (event: MessageEvent<DebayerRequest>) => {
 	let image: ImageBitmap | null = null;
 
 	try {
-		const response = await fetch(event.data.url, { mode: "cors" });
+		const proxyUrl = new URL("/api/mars-image", event.data.proxyUrl);
+		proxyUrl.searchParams.set("url", event.data.url);
+		const response = await fetch(proxyUrl, { mode: "cors" });
 		if (!response.ok) {
-			throw new Error(`NASA image returned HTTP ${response.status}`);
+			throw new Error(`Image proxy returned HTTP ${response.status}`);
 		}
 
 		image = await createImageBitmap(await response.blob());
@@ -23,7 +27,12 @@ self.onmessage = async (event: MessageEvent<DebayerRequest>) => {
 
 		context.drawImage(image, 0, 0);
 		const source = context.getImageData(0, 0, image.width, image.height);
-		const pixels = debayerMastcamRggb(source.data, source.width, source.height);
+		const pixels = debayerMastcamRggb(
+			source.data,
+			source.width,
+			source.height,
+			event.data.weights,
+		);
 
 		self.postMessage(
 			{

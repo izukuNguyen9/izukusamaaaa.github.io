@@ -17,22 +17,43 @@ let {
 	src,
 	alt,
 	class: className = "",
+	proxyUrl = "",
+	weights = [1, 1, 1],
+	downloadFileName = "",
+	downloadDisabled = false,
 } = $props<{
 	src: string;
 	alt: string;
 	class?: string;
+	proxyUrl?: string;
+	weights?: [number, number, number];
+	downloadFileName?: string;
+	downloadDisabled?: boolean;
 }>();
 
 let canvas: HTMLCanvasElement;
 let worker: Worker | null = null;
 let started = false;
+let requestId = 0;
 let isLoading = $state(true);
 let errorMessage = $state("");
+let downloadError = $state("");
+let isDownloading = $state(false);
 let aspectRatio = $state("4 / 3");
 
-function startDebayer() {
-	if (started) return;
+function startDebayer(currentWeights: [number, number, number]) {
 	started = true;
+	const currentRequest = ++requestId;
+	worker?.terminate();
+	worker = null;
+	isLoading = true;
+	errorMessage = "";
+	if (!proxyUrl) {
+		errorMessage = "Color reconstruction needs the Vercel image proxy.";
+		isLoading = false;
+		return;
+	}
+
 	try {
 		worker = new Worker(
 			new URL("../../workers/mastcam-debayer.worker.ts", import.meta.url),
@@ -46,6 +67,7 @@ function startDebayer() {
 		return;
 	}
 	worker.onmessage = (event: MessageEvent<DebayerResponse>) => {
+		if (currentRequest !== requestId) return;
 		const result = event.data;
 		if (result.type === "error") {
 			errorMessage = result.message;
@@ -76,16 +98,37 @@ function startDebayer() {
 		isLoading = false;
 	};
 	worker.onerror = (event) => {
+		if (currentRequest !== requestId) return;
 		console.error("[Mars] Mastcam debayer worker error:", event.message);
 		errorMessage = "Could not reconstruct this Mastcam image in color.";
 		isLoading = false;
 	};
-	worker.postMessage({ url: src });
+	worker.postMessage({ url: src, proxyUrl, weights: currentWeights });
+}
+
+function downloadPng() {
+	if (!canvas || isLoading || errorMessage || !downloadFileName) return;
+	isDownloading = true;
+	downloadError = "";
+	canvas.toBlob((blob) => {
+		isDownloading = false;
+		if (!blob) {
+			downloadError = "Could not create the color PNG.";
+			return;
+		}
+
+		const objectUrl = URL.createObjectURL(blob);
+		const link = document.createElement("a");
+		link.href = objectUrl;
+		link.download = downloadFileName;
+		link.click();
+		window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+	}, "image/png");
 }
 
 onMount(() => {
 	if (typeof IntersectionObserver === "undefined") {
-		startDebayer();
+		startDebayer(weights);
 		return () => worker?.terminate();
 	}
 
@@ -93,7 +136,7 @@ onMount(() => {
 		(entries) => {
 			if (entries.some((entry) => entry.isIntersecting)) {
 				observer.disconnect();
-				startDebayer();
+				startDebayer(weights);
 			}
 		},
 		{ rootMargin: "200px" },
@@ -104,6 +147,11 @@ onMount(() => {
 		observer.disconnect();
 		worker?.terminate();
 	};
+});
+
+$effect(() => {
+	const currentWeights = weights;
+	if (started) startDebayer(currentWeights);
 });
 </script>
 
@@ -134,6 +182,24 @@ onMount(() => {
 			role="alert"
 		>
 			{errorMessage}. Showing the original NASA image.
+		</p>
+	{/if}
+	{#if downloadFileName && proxyUrl}
+		<button
+			class="btn-regular mt-2 w-full rounded-lg px-4 py-2 text-sm"
+			type="button"
+			disabled={isLoading ||
+				isDownloading ||
+				Boolean(errorMessage) ||
+				downloadDisabled}
+			onclick={downloadPng}
+		>
+			{isDownloading ? "Preparing PNG…" : "Download debayered color PNG"}
+		</button>
+	{/if}
+	{#if downloadError}
+		<p class="mt-1 text-center text-xs text-red-300" role="alert">
+			{downloadError}
 		</p>
 	{/if}
 </div>

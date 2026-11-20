@@ -177,12 +177,20 @@ Không cần API key. Ảnh gallery tải lười; chọn ảnh để xem ảnh 
 
 Mục **Mars** lấy ảnh camera theo từng sol trực tiếp từ các API của [NASA Mars](https://mars.nasa.gov/), không cần API key và không chờ dữ liệu tạo theo lịch:
 
-- **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, ưu tiên các ảnh gốc và ảnh subframe (`is_thumbnail=false`), bỏ qua thumbnail. Mastcam Bayer (`C00_DXXX`) được debayer RGGB trong trình duyệt khi máy chủ NASA cho phép CORS. Nếu không thể đọc dữ liệu raw do CORS, trang hiển thị ảnh raw gốc thay vì để trống; cần proxy cùng nguồn có kiểm soát để tái dựng màu trên GitHub Pages. Màu là kết quả nội suy từ dữ liệu raw, không phải sản phẩm màu đã hiệu chuẩn của NASA. Mỗi trang API tối đa 200 kết quả.
+- **Curiosity (MSL):** sol mới nhất lấy từ `raw_image_items/msl/latest/`; ảnh lấy theo sol, ưu tiên các ảnh gốc và ảnh subframe (`is_thumbnail=false`), bỏ qua thumbnail. Ảnh Mastcam Bayer (`C00_DXXX`) có thể được tái dựng màu và tải xuống PNG độ phân giải đầy đủ. Chỉ ảnh instrument Mastcam có Bayer mới được debayer; camera khác giữ nguyên ảnh gốc. Màu là kết quả nội suy từ dữ liệu raw, không phải sản phẩm màu đã hiệu chuẩn của NASA. Mỗi trang API tối đa 200 kết quả.
 - **Perseverance (M20):** sol mới nhất lấy từ nguồn ảnh mới nhất; ảnh lấy theo sol. Mastcam-Z (`MCZ_LEFT/RIGHT`) dùng PNG `full_res` ngay trên lưới; các camera khác dùng ảnh lớn làm thumbnail và mở `full_res` khi phóng to.
 - Trường **Sol** chỉ nhận giá trị từ 0 đến sol mới nhất mà NASA trả về. Trường **Camera** được tạo từ những ảnh nhận được của rover/sol đang chọn, không dùng danh sách camera cố định.
 - Trang hiển thị 50 ảnh mỗi đợt; ảnh dùng tải lười. Với Curiosity, trang phân trang dữ liệu NASA theo sol (tối đa 200 kết quả/lần), chỉ hiển thị ảnh gốc/subframe và bỏ qua các bản thumbnail trùng lặp. Mastcam Bayer được xử lý trong Web Worker chỉ khi ảnh sắp xuất hiện trên màn hình hoặc được mở lớn, tránh chặn giao diện. Với Perseverance, API trả toàn bộ ảnh của sol và giao diện cho xem tiếp mỗi 50 ảnh. Nhấn ảnh để phóng trong trình xem ngay trên trang; liên kết bên dưới mở ảnh raw NASA tương ứng ở tab mới. Nếu sol không có ảnh, trang báo rõ và cho phép chọn sol khác.
 
-Debayer theo mô hình RGGB và nội suy Malvar–He–Cutler dựa trên tài liệu [NASA VICAR MARSDEBAYER](https://github.com/NASA-AMMOS/VICAR-DOCS/blob/91ce83c8c4fd1cc59cbf721b14943f36f5fe19ba/docs/vicar/dev/html/vichelp/marsdebayer.html). Đây là màu tái dựng từ mẫu Bayer; không thay thế dữ liệu màu đã hiệu chuẩn hoặc xử lý khoa học.
+Debayer theo mô hình RGGB và nội suy Malvar–He–Cutler dựa trên tài liệu [NASA VICAR MARSDEBAYER](https://github.com/NASA-AMMOS/VICAR-DOCS/blob/91ce83c8c4fd1cc59cbf721b14943f36f5fe19ba/docs/vicar/dev/html/vichelp/marsdebayer.html). Các ô RGB weight trong trình xem ảnh nhận giá trị 0–4; để trống tương đương 1/1/1 (raw color, không cân bằng trắng). PNG tải xuống dùng đúng weights đang chọn. Đây là màu tái dựng từ mẫu Bayer; không thay thế dữ liệu màu đã hiệu chuẩn hoặc xử lý khoa học.
+
+NASA không bật CORS cho ảnh raw, vì vậy trang GitHub Pages cần Vercel Function làm proxy ảnh có kiểm soát:
+
+1. Import repository vào Vercel và deploy; function nằm trong `api/mars-image.ts`.
+2. Trong Vercel Project Settings → Environment Variables, đặt `MASTCAM_ALLOWED_ORIGIN` thành `https://izukunguyen9.github.io` (hoặc origin website đang dùng), rồi redeploy.
+3. Trong GitHub repository Settings → Secrets and variables → Actions → Variables, tạo `PUBLIC_MASTCAM_PROXY_URL` với giá trị là origin Vercel, ví dụ `https://ten-project.vercel.app` (không thêm `/api/...`). Workflow Pages truyền biến này vào build.
+
+Proxy chỉ nhận URL ảnh HTTPS thuộc `mars.nasa.gov` dưới đường dẫn ảnh raw MSL/Mars 2020, giới hạn ảnh 4 MiB để phù hợp giới hạn phản hồi của Vercel Functions, và chỉ bật CORS cho origin đã cấu hình. Khi chưa cấu hình biến GitHub Actions, trang vẫn hiển thị ảnh NASA gốc nhưng chưa thể debayer hoặc tải PNG màu.
 
 Các API được dùng là [MSL raw images](https://mars.nasa.gov/api/v1/raw_image_items/), [MSL latest sol](https://mars.nasa.gov/api/v1/raw_image_items/msl/latest/) và [M20 raw images](https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json). Menu được cấu hình trong `src/config/navBarConfig.ts`; giao diện nằm ở `src/pages/mars.astro` và `src/components/pages/MarsGallery.svelte`.
 

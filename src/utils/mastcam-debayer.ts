@@ -2,13 +2,18 @@ export function debayerMastcamRggb(
 	source: Uint8ClampedArray,
 	width: number,
 	height: number,
+	weights: [number, number, number] = [1, 1, 1],
 ): Uint8ClampedArray {
 	if (
 		!Number.isInteger(width) ||
 		!Number.isInteger(height) ||
 		width < 2 ||
 		height < 2 ||
-		source.length !== width * height * 4
+		source.length !== width * height * 4 ||
+		weights.length !== 3 ||
+		weights.some(
+			(weight) => !Number.isFinite(weight) || weight < 0 || weight > 4,
+		)
 	) {
 		throw new Error("Invalid Mastcam Bayer image data");
 	}
@@ -83,9 +88,9 @@ export function debayerMastcamRggb(
 				}
 			}
 
-			output[index] = red;
-			output[index + 1] = green;
-			output[index + 2] = blue;
+			output[index] = red * weights[0];
+			output[index + 1] = green * weights[1];
+			output[index + 2] = blue * weights[2];
 			output[index + 3] = 255;
 		}
 	}

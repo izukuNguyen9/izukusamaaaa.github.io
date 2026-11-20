@@ -42,6 +42,7 @@
   "include": [
     ".astro/types.d.ts",
     "src/**/*",
+    "api/**/*",
     "scripts/**/*"
   ],
   "exclude": [
